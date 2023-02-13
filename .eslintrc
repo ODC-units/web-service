@@ -49,9 +49,9 @@
 				}
 			}
 		],
-		"react-hooks/exhaustive-deps": "off",
 		"object-shorthand": "error",
 		"no-console": "warn",
-		"@typescript-eslint/consistent-type-imports": "error"
+		"@typescript-eslint/consistent-type-imports": "error",
+		"import/no-named-as-default-member": "off"
 	}
 }
