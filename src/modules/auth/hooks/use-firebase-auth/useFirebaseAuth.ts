@@ -16,7 +16,7 @@ const useFirebaseAuth = (
 	options?: UseFirebaseAuthOptions
 ): UseFirebaseAuthResult => {
 	const [error, setError] = React.useState<AuthError | null>(null);
-	const [isLoading, setIsLoading] = React.useState(false);
+	const [isLoading, setIsLoading] = React.useState(true);
 	const [user, setUser] = React.useState<User | null>(auth.currentUser);
 
 	React.useEffect(() => {

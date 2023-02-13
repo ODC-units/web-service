@@ -6,7 +6,7 @@ import { auth } from './config';
 
 const AuthContext = React.createContext<AuthContextType>({
 	user: null,
-	isLoading: false,
+	isLoading: true,
 	error: null,
 	loginWithEmailPassword: async () => {},
 	registerWithEmailPassword: async () => {},

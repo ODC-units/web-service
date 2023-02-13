@@ -52,6 +52,7 @@
 		"object-shorthand": "error",
 		"no-console": "warn",
 		"@typescript-eslint/consistent-type-imports": "error",
-		"import/no-named-as-default-member": "off"
+		"import/no-named-as-default-member": "off",
+		"react/prop-types": "off"
 	}
 }
