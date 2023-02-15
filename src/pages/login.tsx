@@ -1,5 +1,9 @@
 import { useAuth } from '@/modules/auth';
-import type { GetServerSideProps, NextPage } from 'next';
+import type {
+	GetServerSidePropsContext,
+	GetServerSidePropsResult,
+	NextPage,
+} from 'next';
 import { useRouter } from 'next/router';
 import type { Route } from 'nextjs-routes';
 import type { ParsedUrlQuery } from 'querystring';
@@ -38,22 +42,16 @@ interface Query extends ParsedUrlQuery {
 	callbackUrl?: Route['pathname'];
 }
 
-export const getServerSideProps: GetServerSideProps<LoginProps> = (context) => {
+export const getServerSideProps = (
+	context: GetServerSidePropsContext
+): GetServerSidePropsResult<LoginProps> => {
 	const { callbackUrl } = context.query as Query;
 
-	if (!callbackUrl) {
-		return Promise.resolve({
-			props: {
-				callbackUrl: '/',
-			},
-		});
-	}
-
-	return Promise.resolve({
+	return {
 		props: {
-			callbackUrl,
+			callbackUrl: callbackUrl ?? '/',
 		},
-	});
+	};
 };
 
 export default Login;
