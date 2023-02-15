@@ -6,15 +6,12 @@ import {
 	onAuthStateChanged,
 	signOut,
 } from 'firebase/auth';
-import type {
-	UseFirebaseAuthOptions,
-	UseFirebaseAuthResult,
-} from '../../types';
+import type { UseFirebaseAuthOptions, UseAuthResult } from '../../types';
 
 const useFirebaseAuth = (
 	auth: Auth,
 	options?: UseFirebaseAuthOptions
-): UseFirebaseAuthResult => {
+): UseAuthResult => {
 	const [error, setError] = React.useState<AuthError | null>(null);
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [user, setUser] = React.useState<User | null>(auth.currentUser);
@@ -75,7 +72,7 @@ const useFirebaseAuth = (
 		}
 	}, [auth]);
 
-	return React.useMemo<UseFirebaseAuthResult>(
+	return React.useMemo<UseAuthResult>(
 		() => ({
 			user,
 			isLoading,

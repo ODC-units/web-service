@@ -1,6 +1,6 @@
 import type { AuthError, User } from 'firebase/auth';
 
-export interface UseFirebaseAuthResult {
+export interface UseAuthResult {
 	user: User | null;
 	isLoading: boolean;
 	error: AuthError | null;
@@ -13,4 +13,4 @@ export interface UseFirebaseAuthOptions {
 	onUserChange?: (user: User | null) => void;
 }
 
-export type AuthContextType = UseFirebaseAuthResult;
+export type AuthContextType = UseAuthResult;
