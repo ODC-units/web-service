@@ -17,7 +17,7 @@ const useFirebaseAuth = (
 	const [user, setUser] = React.useState<User | null>(auth.currentUser);
 
 	React.useEffect(() => {
-		const authListener = onAuthStateChanged(auth, (currentUser) => {
+		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
 			if (options?.onUserChange) {
 				options.onUserChange(currentUser);
 			}
@@ -27,7 +27,7 @@ const useFirebaseAuth = (
 			setError(null);
 		});
 
-		return () => authListener();
+		return unsubscribe;
 	}, [auth, options]);
 
 	const loginWithEmailPassword = React.useCallback(
