@@ -1,4 +1,5 @@
 import { AuthorizedPage, useAuth } from '@/modules/auth';
+import { Button } from 'flowbite-react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
@@ -19,6 +20,7 @@ const Home: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
+				<Button>Button</Button>
 				HomePage
 				<button onClick={handleLogout}>Logout</button>
 			</main>
