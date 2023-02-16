@@ -16,6 +16,10 @@ const AuthContext = React.createContext<AuthContextType>({
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const firebaseAuth = useFirebaseAuth(auth);
 
+	if (firebaseAuth.isLoading) {
+		return <div>Loading...</div>;
+	}
+
 	return (
 		<AuthContext.Provider value={firebaseAuth}>{children}</AuthContext.Provider>
 	);

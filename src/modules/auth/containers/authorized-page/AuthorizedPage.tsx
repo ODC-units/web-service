@@ -1,3 +1,4 @@
+import { Spinner } from 'flowbite-react';
 import { useRouter } from 'next/router';
 import type { PropsWithChildren } from 'react';
 import React from 'react';
@@ -26,7 +27,7 @@ export const AuthorizedPage: React.FC<PropsWithChildren> = ({ children }) => {
 	}, [isLoading, router, user]);
 
 	if (isLoading) {
-		return <div>Loading...</div>;
+		return <Spinner />;
 	}
 
 	return <>{children}</>;
