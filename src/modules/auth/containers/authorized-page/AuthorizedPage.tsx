@@ -25,6 +25,10 @@ export const AuthorizedPage: React.FC<PropsWithChildren> = ({ children }) => {
 		};
 	}, [isLoading, router, user]);
 
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
+
 	return <>{children}</>;
 };
 

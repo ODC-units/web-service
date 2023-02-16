@@ -1,4 +1,3 @@
-import { getClient } from '@/api/clients/axiosClient';
 import { AuthorizedPage, useAuth } from '@/modules/auth';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -10,18 +9,6 @@ const Home: NextPage = () => {
 	const handleLogout = React.useCallback(() => {
 		void logout();
 	}, [logout]);
-
-	React.useEffect(() => {
-		const testFetch = async () => {
-			const client = getClient();
-
-			const response = await client.get('/test');
-
-			console.log(response.headers);
-		};
-
-		void testFetch();
-	}, []);
 
 	return (
 		<AuthorizedPage>
