@@ -15,16 +15,18 @@ const Header: React.FC = () => {
 		<Navbar className="border-b lg:py-6 px-4 sm:px-6 lg:px-8">
 			api
 			<div className="flex md:order-2">
-				<Dropdown arrowIcon={false} inline={true} label={<Avatar rounded />}>
-					<Dropdown.Header>
-						<span className="block truncate text-sm font-medium">
-							{user?.email}
-						</span>
-					</Dropdown.Header>
-					<Dropdown.Item onClick={handleLogout}>
-						<span className="text-red-600 text-sm font-medium">Sign out</span>
-					</Dropdown.Item>
-				</Dropdown>
+				{user && (
+					<Dropdown arrowIcon={false} inline={true} label={<Avatar rounded />}>
+						<Dropdown.Header>
+							<span className="block truncate text-sm font-medium">
+								{user?.email}
+							</span>
+						</Dropdown.Header>
+						<Dropdown.Item onClick={handleLogout}>
+							<span className="text-red-600 text-sm font-medium">Sign out</span>
+						</Dropdown.Item>
+					</Dropdown>
+				)}
 				<Navbar.Toggle />
 			</div>
 			<Navbar.Collapse>

@@ -1,5 +1,5 @@
 import { Layout } from '@/components';
-import { AuthorizedPage, useAuth } from '@/modules/auth';
+import { Page, useAuth } from '@/modules/auth';
 import { Button } from 'flowbite-react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -13,7 +13,7 @@ const Home: NextPage = () => {
 	}, [logout]);
 
 	return (
-		<AuthorizedPage>
+		<Page.Authorized>
 			<Layout>
 				<Head>
 					<title>Create Next App</title>
@@ -27,7 +27,7 @@ const Home: NextPage = () => {
 					<button onClick={handleLogout}>Logout</button>
 				</main>
 			</Layout>
-		</AuthorizedPage>
+		</Page.Authorized>
 	);
 };
 

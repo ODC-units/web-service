@@ -1,4 +1,5 @@
-import { useAuth } from '@/modules/auth';
+import { Layout } from '@/components';
+import { Login as LoginUser, Page, useAuth } from '@/modules/auth';
 import type {
 	GetServerSidePropsContext,
 	GetServerSidePropsResult,
@@ -16,7 +17,7 @@ interface LoginProps {
 const Login: NextPage<LoginProps> = ({ callbackUrl }) => {
 	const router = useRouter();
 
-	const { loginWithEmailPassword, registerWithEmailPassword } = useAuth();
+	const { loginWithEmailPassword, registerWithEmailPassword, user } = useAuth();
 
 	const handleLogin = React.useCallback(() => {
 		void loginWithEmailPassword('email@email.com', 'password').then(() => {
@@ -31,10 +32,13 @@ const Login: NextPage<LoginProps> = ({ callbackUrl }) => {
 	}, [callbackUrl, registerWithEmailPassword, router]);
 
 	return (
-		<div>
-			<button onClick={handleLogin}>Login</button>
-			<button onClick={handleRegister}>Register</button>
-		</div>
+		<Page.OnlyUnauthorized>
+			<Layout>
+				<LoginUser />
+				{/* <button onClick={handleLogin}>Login</button>
+				<button onClick={handleRegister}>Register</button> */}
+			</Layout>
+		</Page.OnlyUnauthorized>
 	);
 };
 

@@ -4,7 +4,7 @@ import type { PropsWithChildren } from 'react';
 import React from 'react';
 import useAuth from '../../hooks/use-auth/useAuth';
 
-export const AuthorizedPage: React.FC<PropsWithChildren> = ({ children }) => {
+const AuthorizedPage: React.FC<PropsWithChildren> = ({ children }) => {
 	const { user, isLoading } = useAuth();
 
 	const router = useRouter();
@@ -33,4 +33,31 @@ export const AuthorizedPage: React.FC<PropsWithChildren> = ({ children }) => {
 	return <>{children}</>;
 };
 
-export default AuthorizedPage;
+const UnauthorizedPage: React.FC<PropsWithChildren> = ({ children }) => {
+	const { user, isLoading } = useAuth();
+
+	const router = useRouter();
+
+	React.useEffect(() => {
+		if (user && !isLoading) {
+			void router.push('/');
+		}
+
+		return () => {
+			// cleanup
+		};
+	}, [isLoading, router, user]);
+
+	if (isLoading) {
+		return <Spinner />;
+	}
+
+	return <>{children}</>;
+};
+
+export const Page = {
+	Authorized: AuthorizedPage,
+	OnlyUnauthorized: UnauthorizedPage,
+};
+
+export default Page;
