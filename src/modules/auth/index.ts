@@ -3,3 +3,4 @@ export { default as useFirebaseAuth } from './hooks/use-firebase-auth/useFirebas
 export * from './AuthContext';
 export * from './types';
 export * from './containers';
+export * from './components';
