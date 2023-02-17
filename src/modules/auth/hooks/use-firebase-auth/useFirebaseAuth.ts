@@ -40,6 +40,7 @@ const useFirebaseAuth = (
 		async (email: string, password: string) => {
 			setLoading(true);
 			await signInWithEmailAndPassword(auth, email, password);
+			setLoading(false);
 		},
 		[auth]
 	);
@@ -48,12 +49,15 @@ const useFirebaseAuth = (
 		async (email: string, password: string) => {
 			setLoading(true);
 			await createUserWithEmailAndPassword(auth, email, password);
+			setLoading(false);
 		},
 		[auth]
 	);
 
 	const logout = React.useCallback(async () => {
+		setLoading(true);
 		await signOut(auth);
+		setLoading(false);
 	}, [auth]);
 
 	return React.useMemo<UseAuthResult>(
