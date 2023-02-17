@@ -1,6 +1,5 @@
 import * as React from "react";
 import Map, { Marker } from "react-map-gl";
-import { VisualizerContainer } from "./Visualizer.style";
 
 const MAPBOX_API_KEY = process.env.REACT_APP_MAPBOX_API_KEY || "invalid";
 
@@ -14,18 +13,15 @@ const Visualizer: React.FC<VisualizerProps> = ({
   height = 400,
 }) => {
   return (
-    <VisualizerContainer>
-      <Map
-        style={{
-          width,
-          height,
-          borderRadius: "1rem",
-        }}
-        mapStyle="mapbox://styles/mapbox/streets-v9"
-        mapboxAccessToken={MAPBOX_API_KEY}
-      >
-      </Map>
-    </VisualizerContainer>
+    <Map
+      style={{
+        width,
+        height,
+      }}
+      mapStyle="mapbox://styles/mapbox/streets-v9"
+      mapboxAccessToken={MAPBOX_API_KEY}
+    >
+    </Map>
   );
 };
 

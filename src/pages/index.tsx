@@ -1,4 +1,5 @@
 import { Layout } from '@/components';
+import Visualizer from '@/components/visualizer/Visualizer';
 import { Page, useAuth } from '@/modules/auth';
 import { Button, Toast } from 'flowbite-react';
 import type { NextPage } from 'next';
@@ -21,6 +22,7 @@ const Home: NextPage = () => {
 					<meta name="viewport" content="width=device-width, initial-scale=1" />
 					<link rel="icon" href="/favicon.ico" />
 				</Head>
+        <Visualizer/>
 			</Layout>
 		</Page.Authorized>
 	);
