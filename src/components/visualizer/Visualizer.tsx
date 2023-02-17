@@ -1,7 +1,7 @@
 import * as React from "react";
 import Map, { Marker } from "react-map-gl";
 
-const MAPBOX_API_KEY = process.env.REACT_APP_MAPBOX_API_KEY || "invalid";
+const MAPBOX_API_KEY = process.env.NEXT_PUBLIC_MAPBOX_API_KEY || "invalid";
 
 export interface VisualizerProps {
   width?: number;
