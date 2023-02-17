@@ -24,6 +24,7 @@ const useFirebaseAuth = (
 				}
 
 				setUser(currentUser);
+				setLoading(false);
 			},
 			(error) => {
 				console.error(error);
