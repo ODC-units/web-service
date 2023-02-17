@@ -31,8 +31,6 @@ const AuthorizedPage: React.FC<PropsWithChildren> = ({ children }) => {
 const UnauthorizedPage: React.FC<PropsWithChildren> = ({ children }) => {
 	const { user, loading } = useAuth();
 
-	console.log(loading);
-
 	const router = useRouter();
 
 	React.useEffect(() => {

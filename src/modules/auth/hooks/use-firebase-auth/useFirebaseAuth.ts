@@ -13,7 +13,7 @@ const useFirebaseAuth = (
 	options?: UseFirebaseAuthOptions
 ): UseAuthResult => {
 	const [user, setUser] = React.useState<User | null>(auth.currentUser);
-	const [loading, setLoading] = React.useState<boolean>(false);
+	const [loading, setLoading] = React.useState<boolean>(true);
 
 	React.useEffect(() => {
 		const unsubscribe = onAuthStateChanged(
