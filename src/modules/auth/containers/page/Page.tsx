@@ -4,12 +4,12 @@ import React from 'react';
 import useAuth from '../../hooks/use-auth/useAuth';
 
 const AuthorizedPage: React.FC<PropsWithChildren> = ({ children }) => {
-	const { user, isLoading } = useAuth();
+	const { user, loading } = useAuth();
 
 	const router = useRouter();
 
 	React.useEffect(() => {
-		if (!user && !isLoading) {
+		if (!user && !loading) {
 			if (router.pathname !== '/login') {
 				void router.push({
 					pathname: '/login',
@@ -23,25 +23,25 @@ const AuthorizedPage: React.FC<PropsWithChildren> = ({ children }) => {
 		return () => {
 			// cleanup
 		};
-	}, [isLoading, router, user]);
+	}, [router, user, loading]);
 
 	return <>{children}</>;
 };
 
 const UnauthorizedPage: React.FC<PropsWithChildren> = ({ children }) => {
-	const { user, isLoading } = useAuth();
+	const { user, loading } = useAuth();
 
 	const router = useRouter();
 
 	React.useEffect(() => {
-		if (user && !isLoading) {
+		if (user && !loading) {
 			void router.push('/');
 		}
 
 		return () => {
 			// cleanup
 		};
-	}, [isLoading, router, user]);
+	}, [router, user, loading]);
 
 	return <>{children}</>;
 };
