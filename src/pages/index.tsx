@@ -21,11 +21,6 @@ const Home: NextPage = () => {
 					<meta name="viewport" content="width=device-width, initial-scale=1" />
 					<link rel="icon" href="/favicon.ico" />
 				</Head>
-				<main>
-					<Button color="light">Button</Button>
-					HomePage
-					<button onClick={handleLogout}>Logout</button>
-				</main>
 			</Layout>
 		</Page.Authorized>
 	);
