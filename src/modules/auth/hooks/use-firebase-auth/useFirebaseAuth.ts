@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Auth, AuthError, User } from 'firebase/auth';
+import type { Auth, User } from 'firebase/auth';
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
@@ -12,8 +12,6 @@ const useFirebaseAuth = (
 	auth: Auth,
 	options?: UseFirebaseAuthOptions
 ): UseAuthResult => {
-	const [error, setError] = React.useState<AuthError | null>(null);
-	const [isLoading, setIsLoading] = React.useState(true);
 	const [user, setUser] = React.useState<User | null>(auth.currentUser);
 
 	React.useEffect(() => {
@@ -23,8 +21,6 @@ const useFirebaseAuth = (
 			}
 
 			setUser(currentUser);
-			setIsLoading(false);
-			setError(null);
 		});
 
 		return unsubscribe;
@@ -32,63 +28,30 @@ const useFirebaseAuth = (
 
 	const loginWithEmailPassword = React.useCallback(
 		async (email: string, password: string) => {
-			setIsLoading(true);
-
-			try {
-				await signInWithEmailAndPassword(auth, email, password);
-			} catch (err) {
-				setError(err as AuthError);
-			} finally {
-				setIsLoading(false);
-			}
+			await signInWithEmailAndPassword(auth, email, password);
 		},
 		[auth]
 	);
 
 	const registerWithEmailPassword = React.useCallback(
 		async (email: string, password: string) => {
-			setIsLoading(true);
-
-			try {
-				await createUserWithEmailAndPassword(auth, email, password);
-			} catch (err) {
-				setError(err as AuthError);
-			} finally {
-				setIsLoading(false);
-			}
+			await createUserWithEmailAndPassword(auth, email, password);
 		},
 		[auth]
 	);
 
 	const logout = React.useCallback(async () => {
-		setIsLoading(true);
-
-		try {
-			await signOut(auth);
-		} catch (err) {
-			setError(err as AuthError);
-		} finally {
-			setIsLoading(false);
-		}
+		await signOut(auth);
 	}, [auth]);
 
 	return React.useMemo<UseAuthResult>(
 		() => ({
 			user,
-			isLoading,
-			error,
 			loginWithEmailPassword,
 			registerWithEmailPassword,
 			logout,
 		}),
-		[
-			error,
-			isLoading,
-			loginWithEmailPassword,
-			logout,
-			registerWithEmailPassword,
-			user,
-		]
+		[loginWithEmailPassword, logout, registerWithEmailPassword, user]
 	);
 };
 

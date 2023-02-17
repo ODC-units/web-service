@@ -1,11 +1,13 @@
 export interface UseNotificationsResult {
-	notifications: (Notification | string)[];
-	addNotification: (notification: Notification | string) => void;
+	notifications: Notification[];
+	addNotification: (notification: Omit<Notification, 'id'>) => void;
+	removeNotification: (id: Notification['id']) => void;
 }
 
 export interface Notification {
+	id: number;
 	title: string;
-	message: string;
+	message?: string;
 	severity: 'info' | 'success' | 'warning' | 'error';
 }
 

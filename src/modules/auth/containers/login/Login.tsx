@@ -5,21 +5,26 @@ import type { LoginFormModel } from '../../components/login-form/types';
 import useAuth from '../../hooks/use-auth/useAuth';
 
 export const Login: React.FC = () => {
-	const { loginWithEmailPassword, isLoading, error } = useAuth();
+	const { loginWithEmailPassword } = useAuth();
 	const { addNotification } = useNotifications();
+	const [isLoading, setIsLoading] = React.useState(false);
 
 	const handleSubmit = React.useCallback(
-		({ email, password }: LoginFormModel) => {
-			void loginWithEmailPassword(email, password);
-			if (error) {
+		async ({ email, password }: LoginFormModel) => {
+			setIsLoading(true);
+
+			try {
+				await loginWithEmailPassword(email, password);
+			} catch (error) {
 				addNotification({
+					title: 'Login failed',
 					severity: 'error',
-					title: 'Error',
-					message: error.message,
 				});
+			} finally {
+				setIsLoading(false);
 			}
 		},
-		[addNotification, error, loginWithEmailPassword]
+		[addNotification, loginWithEmailPassword]
 	);
 
 	return <LoginForm onSubmit={handleSubmit} disabled={isLoading} />;

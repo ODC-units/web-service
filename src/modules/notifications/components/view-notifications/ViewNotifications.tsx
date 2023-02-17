@@ -10,11 +10,7 @@ export const ViewNotifications: React.FC = () => {
 			{notifications.map((notification, i) => (
 				<Toast key={i}>
 					<ExclamationCircleIcon className="h-5 w-5" />
-					<div className="ml-3 text-sm font-normal">
-						{typeof notification === 'string'
-							? notification
-							: notification.message}
-					</div>
+					<div className="ml-3 text-sm font-normal">{notification.message}</div>
 					<Toast.Toggle />
 				</Toast>
 			))}

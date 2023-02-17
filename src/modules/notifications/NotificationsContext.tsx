@@ -6,6 +6,7 @@ import type { NotificationsContextType } from './types';
 const NotificationsContext = React.createContext<NotificationsContextType>({
 	notifications: [],
 	addNotification: () => {},
+	removeNotification: () => {},
 });
 
 const NotificationsProvider: React.FC<PropsWithChildren> = ({ children }) => {
