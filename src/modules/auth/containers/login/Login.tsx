@@ -1,26 +1,25 @@
+import { useNotifications } from '@/modules/notifications';
 import React from 'react';
 import { LoginForm } from '../../components';
 import type { LoginFormModel } from '../../components/login-form/types';
 import useAuth from '../../hooks/use-auth/useAuth';
 
 export const Login: React.FC = () => {
-	const [isLoading, setIsLoading] = React.useState(false);
-	const { loginWithEmailPassword } = useAuth();
+	const { loginWithEmailPassword, isLoading, error } = useAuth();
+	const { addNotification } = useNotifications();
 
 	const handleSubmit = React.useCallback(
 		({ email, password }: LoginFormModel) => {
-			setIsLoading(true);
-
-			try {
-				void loginWithEmailPassword(email, password);
-			} catch (error) {
-				console.error(error);
-				// Use toasts
-			} finally {
-				setIsLoading(false);
+			void loginWithEmailPassword(email, password);
+			if (error) {
+				addNotification({
+					severity: 'error',
+					title: 'Error',
+					message: error.message,
+				});
 			}
 		},
-		[loginWithEmailPassword]
+		[addNotification, error, loginWithEmailPassword]
 	);
 
 	return <LoginForm onSubmit={handleSubmit} disabled={isLoading} />;

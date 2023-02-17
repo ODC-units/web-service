@@ -1,4 +1,3 @@
-import { Spinner } from 'flowbite-react';
 import { useRouter } from 'next/router';
 import type { PropsWithChildren } from 'react';
 import React from 'react';
@@ -26,10 +25,6 @@ const AuthorizedPage: React.FC<PropsWithChildren> = ({ children }) => {
 		};
 	}, [isLoading, router, user]);
 
-	if (isLoading) {
-		return <Spinner />;
-	}
-
 	return <>{children}</>;
 };
 
@@ -47,10 +42,6 @@ const UnauthorizedPage: React.FC<PropsWithChildren> = ({ children }) => {
 			// cleanup
 		};
 	}, [isLoading, router, user]);
-
-	if (isLoading) {
-		return <Spinner />;
-	}
 
 	return <>{children}</>;
 };

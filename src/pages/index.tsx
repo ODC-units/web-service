@@ -1,6 +1,6 @@
 import { Layout } from '@/components';
 import { Page, useAuth } from '@/modules/auth';
-import { Button } from 'flowbite-react';
+import { Button, Toast } from 'flowbite-react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
