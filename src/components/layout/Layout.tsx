@@ -2,15 +2,25 @@ import { ViewNotifications } from '@/modules/notifications';
 import type { PropsWithChildren } from 'react';
 import Header from '../header/Header';
 
-const Layout: React.FC<PropsWithChildren> = ({ children }) => {
+export interface LayoutProps extends PropsWithChildren {
+	padded?: boolean;
+}
+
+const Layout: React.FC<LayoutProps> = ({ padded = false, children }) => {
 	return (
-		<main className="flex flex-col h-screen">
+		<main className="flex flex-col h-screen overflow-hidden">
 			<Header />
-			<div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8 flex-grow flex flex-col">
+			<div
+				className={`h-full ${
+					padded ? 'sm:px-6 lg:px-8 py-6 lg:py-8 container mx-auto' : ''
+				}`}
+			>
 				{children}
 			</div>
-			<div className="mx-auto py-6 lg:py-8">
-				<ViewNotifications />
+			<div className="z-50 fixed bottom-0 left-0 right-0 pointer-events-none flex justify-center items-center">
+				<div className="pointer-events-all">
+					<ViewNotifications />
+				</div>
 			</div>
 		</main>
 	);

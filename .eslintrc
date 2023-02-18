@@ -54,6 +54,7 @@
 		"@typescript-eslint/consistent-type-imports": "error",
 		"import/no-named-as-default-member": "off",
 		"react/prop-types": "off",
-		"@typescript-eslint/no-misused-promises": "off"
+		"@typescript-eslint/no-misused-promises": "off",
+		"import/no-named-as-default": "off"
 	}
 }

@@ -33,7 +33,7 @@ const Login: NextPage<LoginProps> = ({ callbackUrl }) => {
 
 	return (
 		<Page.OnlyUnauthorized>
-			<Layout>
+			<Layout padded>
 				<LoginUser />
 				{/* <button onClick={handleLogin}>Login</button>
 				<button onClick={handleRegister}>Register</button> */}
