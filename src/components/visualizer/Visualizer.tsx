@@ -34,7 +34,7 @@ const Visualizer: React.FC<VisualizerProps> = ({
 				<Marker key={id} latitude={latitude} longitude={longitude}>
 					<div
 						onClick={handleLocationClick(id)}
-						className="cursor-pointer font-medium text-xs bg-white border rounded-full px-2 py-1 shadow-md duration-200 hover:scale-110"
+						className="cursor-pointer font-medium text-sm bg-white border rounded-full px-2 py-1 shadow-md duration-200 hover:scale-110"
 					>
 						<span>{name}</span>
 					</div>

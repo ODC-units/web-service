@@ -11,7 +11,7 @@
 		},
 		"jsonBody": [
 			{
-				"id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+				"id": "shelter-1",
 				"name": "Rifugio Monte Bianco",
 				"description": "Mont Blanc. We are in the historic Refuge that bears his name and looking around here, it means breathing with your eyes a natural heritage that fills life. Easily accessible by car in summer and with skis, ski lifts and snowmobile in winter. The management is new but carries on the ancient art of refuges.",
 				"latitude": 45.8328,
@@ -22,6 +22,21 @@
 				"beds": 100,
 				"url": "https://www.rifugiomontebianco.eu/",
 				"photo": "https://www.rifugiomontebianco.eu/wp-content/uploads/2022/04/Rifugio-Monte-Bianco_-21-settembre-2021-_-Giuseppe-Geppo-Di-Mauro-13-copia-760x1080.jpg",
+				"createdAt": "2020-01-01T00:00:00.000+0000",
+				"updatedAt": "2020-01-01T00:00:00.000+0000"
+			},
+			{
+				"id": "shelter-2",
+				"name": "Monte Rosa Hütte",
+				"description": "The Cabane Bétemps was built in 1895 and lies at the foot of the Monta Rosa ‘Platji’ at 2990 metres altitude. At the time the wooden hut had only one room which could host 25 guests. The hut was named after its donor, Mr. François Bétemps, who generously bequeathed funds in his will to the SAC (Schweizer Alpine Club) for the construction of the hut. The Seiler family from Zermatt also provided financial support for the reconstruction of the hut. The Cabane Bétemps was then managed by the SAC Central Association who increased the number of beds to 45.",
+				"latitude": 45.954746181,
+				"longitude": 7.8074301036,
+				"province": "Zermatt",
+				"region": "Canton Vallese",
+				"country": "Svizzera",
+				"beds": 45,
+				"url": "https://monterosahuette.ch/?lang=en",
+				"photo": "https://scontent-fra3-1.cdninstagram.com/v/t51.29350-15/321189675_120672590690934_1000968064347149713_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=M1pc1DXfx8gAX9E_FWW&_nc_ht=scontent-fra3-1.cdninstagram.com&edm=ANo9K5cEAAAA&oh=00_AfC4bjNaMdZu3pHmvFUYB5R3RwsdkwWCMtP5aWwY7jNBiA&oe=63F65714",
 				"createdAt": "2020-01-01T00:00:00.000+0000",
 				"updatedAt": "2020-01-01T00:00:00.000+0000"
 			}

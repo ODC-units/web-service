@@ -2,16 +2,19 @@ import { ViewNotifications } from '@/modules/notifications';
 import type { PropsWithChildren } from 'react';
 import Header from '../header/Header';
 
-export interface LayoutProps extends PropsWithChildren {
+export interface LayoutProps {
 	padded?: boolean;
 }
 
-const Layout: React.FC<LayoutProps> = ({ padded = false, children }) => {
+const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
+	padded = false,
+	children,
+}) => {
 	return (
 		<main className="flex flex-col h-screen overflow-hidden">
 			<Header />
 			<div
-				className={`h-full ${
+				className={`h-full relative ${
 					padded ? 'sm:px-6 lg:px-8 py-6 lg:py-8 container mx-auto' : ''
 				}`}
 			>
