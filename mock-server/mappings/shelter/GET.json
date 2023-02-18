@@ -1,0 +1,30 @@
+{
+	"request": {
+		"method": "GET",
+		"urlPath": "/shelter"
+	},
+	"response": {
+		"status": 200,
+		"headers": {
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type": "application/json"
+		},
+		"jsonBody": [
+			{
+				"id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+				"name": "Rifugio Monte Bianco",
+				"description": "Mont Blanc. We are in the historic Refuge that bears his name and looking around here, it means breathing with your eyes a natural heritage that fills life. Easily accessible by car in summer and with skis, ski lifts and snowmobile in winter. The management is new but carries on the ancient art of refuges.",
+				"latitude": 45.8328,
+				"longitude": 6.865,
+				"province": "AO",
+				"region": "Piemonte",
+				"country": "Italia",
+				"beds": 100,
+				"url": "https://www.rifugiomontebianco.eu/",
+				"photo": "https://www.rifugiomontebianco.eu/wp-content/uploads/2022/04/Rifugio-Monte-Bianco_-21-settembre-2021-_-Giuseppe-Geppo-Di-Mauro-13-copia-760x1080.jpg",
+				"createdAt": "2020-01-01T00:00:00.000+0000",
+				"updatedAt": "2020-01-01T00:00:00.000+0000"
+			}
+		]
+	}
+}

@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  wiremock:
+    image: wiremock/wiremock:2.32.0-alpine
+    container_name: wiremock
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./mock-server/mappings:/home/wiremock/mappings
+      - ./mock-server/__files:/home/wiremock/__files
