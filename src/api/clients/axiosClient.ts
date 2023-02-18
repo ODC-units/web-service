@@ -17,7 +17,6 @@ export const getClient = (): AxiosInstance => {
 			async (config) => {
 				try {
 					const token = await getUserToken();
-
 					if (token) {
 						config.headers.Authorization = `Bearer ${token}`;
 					}
