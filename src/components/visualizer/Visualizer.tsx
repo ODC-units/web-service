@@ -1,25 +1,55 @@
-import useShelter from '@/modules/shelters/hooks/use-shelter/useShelter';
-import useShelters from '@/modules/shelters/hooks/use-shelters/useShelters';
-import type * as React from 'react';
+import * as React from 'react';
 import Map, { Marker } from 'react-map-gl';
 
 const MAPBOX_API_KEY = process.env.NEXT_PUBLIC_MAPBOX_API_KEY || 'invalid';
 
-const id = 1;
-const latitude = 46.290689;
-const longitude = 12.034301;
+export interface Location {
+	id: string | number;
+	name: string;
+	latitude: number;
+	longitude: number;
+}
 
-const Visualizer: React.FC = () => {
-	const { data } = useShelters();
+export interface VisualizerProps {
+	locations?: Location[];
+	onLocationClick?: (id: Location['id']) => void;
+}
 
-	console.log(data);
+const Visualizer: React.FC<VisualizerProps> = ({
+	locations = [],
+	onLocationClick,
+}) => {
+	const handleLocationClick = React.useCallback(
+		(id: Location['id']) => () => {
+			if (onLocationClick) {
+				onLocationClick(id);
+			}
+		},
+		[onLocationClick]
+	);
+
+	const markers: React.ReactNode[] = React.useMemo(
+		() =>
+			locations.map(({ id, name, latitude, longitude }) => (
+				<Marker key={id} latitude={latitude} longitude={longitude}>
+					<div
+						onClick={handleLocationClick(id)}
+						className="cursor-pointer font-medium text-xs bg-white border rounded-full px-2 py-1 shadow-md duration-200 hover:scale-110"
+					>
+						<span>{name}</span>
+					</div>
+				</Marker>
+			)),
+		[handleLocationClick, locations]
+	);
+
 	return (
 		<div className="h-full">
 			<Map
 				mapStyle="mapbox://styles/mapbox/streets-v9"
 				mapboxAccessToken={MAPBOX_API_KEY}
 			>
-				<Marker key={id} latitude={latitude} longitude={longitude} />
+				{markers}
 			</Map>
 		</div>
 	);
