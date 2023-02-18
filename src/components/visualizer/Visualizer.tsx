@@ -48,6 +48,7 @@ const Visualizer: React.FC<VisualizerProps> = ({
 			<Map
 				mapStyle="mapbox://styles/mapbox/streets-v9"
 				mapboxAccessToken={MAPBOX_API_KEY}
+				reuseMaps
 			>
 				{markers}
 			</Map>

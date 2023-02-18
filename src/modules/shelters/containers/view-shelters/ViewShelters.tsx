@@ -1,15 +1,16 @@
+/* eslint-disable @next/next/no-img-element */
 import type { Shelter } from '@/api/shelters/dtos';
 import type { Location } from '@/components';
 import { SlidingPanel, Visualizer } from '@/components';
-import { ExclamationCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { Alert, Spinner } from 'flowbite-react';
-import Image from 'next/image';
 import React from 'react';
 import useShelters from '../../hooks/use-shelters/useShelters';
 
 export const ViewShelters: React.FC = () => {
 	const { data: shelters, error: sheltersError } = useShelters();
 	const [selectedShelter, setSelectedShelter] = React.useState<Shelter>();
+	const [isPanelOpen, setIsPanelOpen] = React.useState(false);
 
 	const locations: Location[] = React.useMemo(
 		() =>
@@ -28,13 +29,18 @@ export const ViewShelters: React.FC = () => {
 
 			if (currentShelter) {
 				setSelectedShelter(currentShelter);
+				setIsPanelOpen(true);
 			}
 		},
 		[shelters]
 	);
 
 	const onShelterClose = React.useCallback(() => {
-		setSelectedShelter(undefined);
+		setIsPanelOpen(false);
+
+		setTimeout(() => {
+			setSelectedShelter(undefined);
+		}, 500);
 	}, []);
 
 	if (!shelters && !sheltersError) {
@@ -54,7 +60,7 @@ export const ViewShelters: React.FC = () => {
 			<Visualizer locations={locations} onLocationClick={onShelterClick} />
 
 			<SlidingPanel
-				open={!!selectedShelter}
+				open={isPanelOpen}
 				onClose={onShelterClose}
 				title={selectedShelter?.name}
 			>
