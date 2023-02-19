@@ -62,7 +62,13 @@ export const ViewShelters: React.FC = () => {
 			<SlidingPanel
 				open={isPanelOpen}
 				onClose={onShelterClose}
-				title={selectedShelter?.name}
+				name={selectedShelter?.name}
+        description={selectedShelter?.description}
+        province={selectedShelter?.province}
+        region={selectedShelter?.region}
+        country={selectedShelter?.country}
+        beds={selectedShelter?.beds}
+        url={selectedShelter?.url}
 			>
 				<div className="flex flex-col space-y-4">
 					<div className="relative h-80">

@@ -12,8 +12,8 @@ export const ShelterSchema = z.object({
 	beds: z.number(),
 	url: z.string(),
 	photo: z.string(),
+  version: z.number(),
 	createdAt: z.string(),
-	updatedAt: z.string(),
 });
 
 export type Shelter = z.infer<typeof ShelterSchema>;
