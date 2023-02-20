@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import type { ShelterEntityJsonLdSchema } from '@/api/shelters/dtos';
-import { ShelterInfoSchema } from '@/api/shelters/shelterInfo';
+import type { ShelterInfoSchema } from '@/api/shelters/shelterInfo';
 import { ShelterLocationSchema } from '@/api/shelters/shelterLocation';
 import type { Location } from '@/components';
 import { SlidingPanel, Visualizer } from '@/components';
@@ -18,18 +18,23 @@ export const ViewShelters: React.FC = () => {
 	const { data: shelter, error: shelterError } = useShelter(selectedShelterId);
 	const [isPanelOpen, setIsPanelOpen] = React.useState(false);
 
-	const locations: GeoJSON.FeatureCollection<GeoJSON.Geometry> = React.useMemo(
-		() => (shelters || []).map(({ id, latitude, longitude }) => ({})),
-		[shelters]
+	const features: GeoJSON.Feature[] = (shelters || []).map(
+		({ id, latitude, longitude }) => ({
+			type: 'Feature',
+			geometry: {
+				type: 'Point',
+				coordinates: [latitude, longitude],
+			},
+			properties: {
+				id,
+			},
+		})
 	);
 
-	const onShelterClick = React.useCallback(
-		(id: Location['id']) => {
-			setSelectedShelterId(id);
-			setIsPanelOpen(true);
-		},
-		[selectedShelterId]
-	);
+	const onShelterClick = React.useCallback((id: ShelterInfoSchema['id']) => {
+		setSelectedShelterId(id);
+		setIsPanelOpen(true);
+	}, []);
 
 	const onShelterClose = React.useCallback(() => {
 		setIsPanelOpen(false);
@@ -53,7 +58,7 @@ export const ViewShelters: React.FC = () => {
 
 	return (
 		<>
-			<Visualizer locations={locations} onLocationClick={onShelterClick} />
+			<Visualizer locations={features} onLocationClick={onShelterClick} />
 
 			<SlidingPanel open={isPanelOpen} onClose={onShelterClose}>
 				<Table striped={true}>

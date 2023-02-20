@@ -1,7 +1,7 @@
 {
 	"request": {
 		"method": "GET",
-		"urlPath": "/shelter/shelter-1"
+		"urlPath": "/v1/shelters/shelter-1"
 	},
 	"response": {
 		"status": 200,

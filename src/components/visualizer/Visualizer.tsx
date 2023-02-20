@@ -2,18 +2,11 @@ import * as React from 'react';
 import { useRef } from 'react';
 import { render } from 'react-dom';
 
-import Map, {
-	GeoJSONSource,
-	Layer,
-	MapRef,
-	Marker,
-	PositionOptions,
-	Source,
-} from 'react-map-gl';
+import Map, { Layer, Marker, PositionOptions, Source } from 'react-map-gl';
 
 const MAPBOX_API_KEY = process.env.NEXT_PUBLIC_MAPBOX_API_KEY || 'invalid';
 
-import type { LayerProps } from 'react-map-gl';
+import type { LayerProps, GeoJSONSource, MapRef } from 'react-map-gl';
 
 const clusterLayer: LayerProps = {
 	id: 'clusters',
@@ -59,22 +52,16 @@ const unclusteredPointLayer: LayerProps = {
 	},
 };
 
-export interface Location {
-	id: string;
-	latitude: number;
-	longitude: number;
-}
-
 export interface VisualizerProps {
-	locations?: Location[];
+	features?: GeoJSON.Feature[];
 }
 
-const Visualizer: React.FC<VisualizerProps> = () => {
+const Visualizer: React.FC<VisualizerProps> = ({ features = [] }) => {
 	const mapRef = React.useRef<MapRef>(null);
 
 	const onClick = (event: mapboxgl.MapLayerMouseEvent) => {
-		if (event.features?.length! > 0) {
-			const clusterId = event.features?.[0].properties?.cluster_id;
+		if (event.features && event.features.length > 0) {
+			const clusterId = event.features[0].properties?.cluster_id;
 
 			if (clusterId) {
 				const mapboxSource = mapRef.current?.getSource(
@@ -98,6 +85,15 @@ const Visualizer: React.FC<VisualizerProps> = () => {
 		}
 	};
 
+	const featureCollection: GeoJSON.FeatureCollection<GeoJSON.Geometry> =
+		React.useMemo(
+			() => ({
+				type: 'FeatureCollection',
+				features,
+			}),
+			[features]
+		);
+
 	return (
 		<div className="h-full">
 			<Map
@@ -111,7 +107,7 @@ const Visualizer: React.FC<VisualizerProps> = () => {
 				<Source
 					id="earthquakes"
 					type="geojson"
-					data="https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson"
+					data={featureCollection}
 					cluster={true}
 					clusterMaxZoom={14}
 					clusterRadius={50}
