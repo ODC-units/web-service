@@ -6,6 +6,7 @@ import type { Location } from '@/components';
 import { SlidingPanel, Visualizer } from '@/components';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { Alert, Spinner, Table } from 'flowbite-react';
+import { MapboxGeoJSONFeature } from 'mapbox-gl';
 import React from 'react';
 import useShelter from '../../hooks/use-shelter/useShelter';
 import useShelters from '../../hooks/use-shelters/useShelters';
@@ -17,13 +18,8 @@ export const ViewShelters: React.FC = () => {
 	const { data: shelter, error: shelterError } = useShelter(selectedShelterId);
 	const [isPanelOpen, setIsPanelOpen] = React.useState(false);
 
-	const locations: Location[] = React.useMemo(
-		() =>
-			(shelters || []).map(({ id, latitude, longitude }) => ({
-				id,
-				latitude,
-				longitude,
-			})),
+	const locations: GeoJSON.FeatureCollection<GeoJSON.Geometry> = React.useMemo(
+		() => (shelters || []).map(({ id, latitude, longitude }) => ({})),
 		[shelters]
 	);
 

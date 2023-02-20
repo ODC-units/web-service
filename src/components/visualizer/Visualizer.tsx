@@ -1,7 +1,63 @@
 import * as React from 'react';
-import Map, { Marker } from 'react-map-gl';
+import { useRef } from 'react';
+import { render } from 'react-dom';
+
+import Map, {
+	GeoJSONSource,
+	Layer,
+	MapRef,
+	Marker,
+	PositionOptions,
+	Source,
+} from 'react-map-gl';
 
 const MAPBOX_API_KEY = process.env.NEXT_PUBLIC_MAPBOX_API_KEY || 'invalid';
+
+import type { LayerProps } from 'react-map-gl';
+
+const clusterLayer: LayerProps = {
+	id: 'clusters',
+	type: 'circle',
+	source: 'earthquakes',
+	filter: ['has', 'point_count'],
+	paint: {
+		'circle-color': [
+			'step',
+			['get', 'point_count'],
+			'#51bbd6',
+			100,
+			'#f1f075',
+			750,
+			'#f28cb1',
+		],
+		'circle-radius': ['step', ['get', 'point_count'], 20, 100, 30, 750, 40],
+	},
+};
+
+const clusterCountLayer: LayerProps = {
+	id: 'cluster-count',
+	type: 'symbol',
+	source: 'earthquakes',
+	filter: ['has', 'point_count'],
+	layout: {
+		'text-field': '{point_count_abbreviated}',
+		'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+		'text-size': 12,
+	},
+};
+
+const unclusteredPointLayer: LayerProps = {
+	id: 'unclustered-point',
+	type: 'circle',
+	source: 'earthquakes',
+	filter: ['!', ['has', 'point_count']],
+	paint: {
+		'circle-color': '#11b4da',
+		'circle-radius': 4,
+		'circle-stroke-width': 1,
+		'circle-stroke-color': '#fff',
+	},
+};
 
 export interface Location {
 	id: string;
@@ -11,36 +67,36 @@ export interface Location {
 
 export interface VisualizerProps {
 	locations?: Location[];
-	onLocationClick?: (id: Location['id']) => void;
 }
 
-const Visualizer: React.FC<VisualizerProps> = ({
-	locations = [],
-	onLocationClick,
-}) => {
-	const handleLocationClick = React.useCallback(
-		(id: Location['id']) => () => {
-			if (onLocationClick) {
-				onLocationClick(id);
-			}
-		},
-		[onLocationClick]
-	);
+const Visualizer: React.FC<VisualizerProps> = () => {
+	const mapRef = React.useRef<MapRef>(null);
 
-	const markers: React.ReactNode[] = React.useMemo(
-		() =>
-			locations.map(({ id, latitude, longitude }) => (
-				<Marker key={id} latitude={latitude} longitude={longitude}>
-					<div
-						onClick={handleLocationClick(id)}
-						className="cursor-pointer font-medium text-sm bg-white border rounded-full px-2 py-1 shadow-md duration-200 hover:scale-110"
-					>
-						<span>Marker</span>
-					</div>
-				</Marker>
-			)),
-		[handleLocationClick, locations]
-	);
+	const onClick = (event: mapboxgl.MapLayerMouseEvent) => {
+		if (event.features?.length! > 0) {
+			const clusterId = event.features?.[0].properties?.cluster_id;
+
+			if (clusterId) {
+				const mapboxSource = mapRef.current?.getSource(
+					'earthquakes'
+				) as GeoJSONSource;
+
+				mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
+					if (err) {
+						return;
+					}
+
+					mapRef.current?.getMap().easeTo({
+						center: event.lngLat,
+						zoom,
+					});
+				});
+			} else {
+				// TODO
+				console.log(event.features?.[0].properties?.id);
+			}
+		}
+	};
 
 	return (
 		<div className="h-full">
@@ -48,8 +104,22 @@ const Visualizer: React.FC<VisualizerProps> = ({
 				mapStyle="mapbox://styles/mapbox/streets-v9"
 				mapboxAccessToken={MAPBOX_API_KEY}
 				reuseMaps
+				interactiveLayerIds={[clusterLayer.id!, unclusteredPointLayer.id!]}
+				onClick={onClick}
+				ref={mapRef}
 			>
-				{markers}
+				<Source
+					id="earthquakes"
+					type="geojson"
+					data="https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson"
+					cluster={true}
+					clusterMaxZoom={14}
+					clusterRadius={50}
+				>
+					<Layer {...clusterLayer} />
+					<Layer {...clusterCountLayer} />
+					<Layer {...unclusteredPointLayer} />
+				</Source>
 			</Map>
 		</div>
 	);
