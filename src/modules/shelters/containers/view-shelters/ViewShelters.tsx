@@ -1,22 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
-import type { Shelter } from '@/api/shelters/dtos';
+import type { ShelterEntityJsonLdSchema } from '@/api/shelters/dtos';
+import { ShelterInfoSchema } from '@/api/shelters/shelterInfo';
+import { ShelterLocationSchema } from '@/api/shelters/shelterLocation';
 import type { Location } from '@/components';
 import { SlidingPanel, Visualizer } from '@/components';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
-import { Alert, Spinner } from 'flowbite-react';
+import { Alert, Spinner, Table } from 'flowbite-react';
 import React from 'react';
+import useShelter from '../../hooks/use-shelter/useShelter';
 import useShelters from '../../hooks/use-shelters/useShelters';
 
 export const ViewShelters: React.FC = () => {
 	const { data: shelters, error: sheltersError } = useShelters();
-	const [selectedShelter, setSelectedShelter] = React.useState<Shelter>();
+	const [selectedShelterId, setSelectedShelterId] =
+		React.useState<ShelterInfoSchema['id']>();
+	const { data: shelter, error: shelterError } = useShelter(selectedShelterId);
 	const [isPanelOpen, setIsPanelOpen] = React.useState(false);
 
 	const locations: Location[] = React.useMemo(
 		() =>
-			(shelters || []).map(({ id, name, latitude, longitude }) => ({
+			(shelters || []).map(({ id, latitude, longitude }) => ({
 				id,
-				name,
 				latitude,
 				longitude,
 			})),
@@ -25,21 +29,17 @@ export const ViewShelters: React.FC = () => {
 
 	const onShelterClick = React.useCallback(
 		(id: Location['id']) => {
-			const currentShelter = shelters?.find((shelter) => shelter.id === id);
-
-			if (currentShelter) {
-				setSelectedShelter(currentShelter);
-				setIsPanelOpen(true);
-			}
+			setSelectedShelterId(id);
+			setIsPanelOpen(true);
 		},
-		[shelters]
+		[selectedShelterId]
 	);
 
 	const onShelterClose = React.useCallback(() => {
 		setIsPanelOpen(false);
 
 		setTimeout(() => {
-			setSelectedShelter(undefined);
+			setSelectedShelterId(undefined);
 		}, 500);
 	}, []);
 
@@ -59,31 +59,57 @@ export const ViewShelters: React.FC = () => {
 		<>
 			<Visualizer locations={locations} onLocationClick={onShelterClick} />
 
-			<SlidingPanel
-				open={isPanelOpen}
-				onClose={onShelterClose}
-				name={selectedShelter?.name}
-        description={selectedShelter?.description}
-        province={selectedShelter?.province}
-        region={selectedShelter?.region}
-        country={selectedShelter?.country}
-        beds={selectedShelter?.beds}
-        url={selectedShelter?.url}
-			>
-				<div className="flex flex-col space-y-4">
-					<div className="relative h-80">
-						<img
-							src={selectedShelter?.photo || ''}
-							alt={selectedShelter?.name || ''}
-							style={{
-								objectFit: 'cover',
-								width: '100%',
-								height: '100%',
-								position: 'absolute',
-							}}
-						/>
-					</div>
-				</div>
+			<SlidingPanel open={isPanelOpen} onClose={onShelterClose}>
+				<Table striped={true}>
+					<Table.Head>
+						<Table.HeadCell>Field</Table.HeadCell>
+						<Table.HeadCell>Value</Table.HeadCell>
+					</Table.Head>
+					<Table.Body className="divide-y">
+						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+								Name
+							</Table.Cell>
+							<Table.Cell>{shelter?.name}</Table.Cell>
+						</Table.Row>
+						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+								Description
+							</Table.Cell>
+							<Table.Cell>{shelter?.description}</Table.Cell>
+						</Table.Row>
+						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+								Province
+							</Table.Cell>
+							<Table.Cell>{shelter?.province}</Table.Cell>
+						</Table.Row>
+						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+								Region
+							</Table.Cell>
+							<Table.Cell>{shelter?.region}</Table.Cell>
+						</Table.Row>
+						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+								Country
+							</Table.Cell>
+							<Table.Cell>{shelter?.country}</Table.Cell>
+						</Table.Row>
+						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+								Beds
+							</Table.Cell>
+							<Table.Cell>{shelter?.beds}</Table.Cell>
+						</Table.Row>
+						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+								Website
+							</Table.Cell>
+							<Table.Cell>{shelter?.url}</Table.Cell>
+						</Table.Row>
+					</Table.Body>
+				</Table>
 			</SlidingPanel>
 		</>
 	);

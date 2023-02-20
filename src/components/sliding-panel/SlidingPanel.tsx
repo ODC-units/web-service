@@ -5,26 +5,13 @@ import type { PropsWithChildren } from 'react';
 
 export interface SlidingPanelProps {
 	open?: boolean;
-	name?: string;
-  description?: string;
-  province?: string;
-  region?: string;
-  country?: string;
-  beds?: number;
-  url?: string;
+	children?: React.ReactNode;
 	onClose?: VoidFunction;
 }
 
 const SlidingPanel: React.FC<PropsWithChildren<SlidingPanelProps>> = ({
-	children,
 	open = false,
-	name,
-  description,
-  province,
-  region,
-  country,
-  beds,
-  url,
+  children,
 	onClose,
 }) => {
 	return (
@@ -46,74 +33,7 @@ const SlidingPanel: React.FC<PropsWithChildren<SlidingPanelProps>> = ({
                 onClick={onClose}
               />
 							<div className="px-4 sm:px-6 justify-between items-center">
-                <Table striped={true}>
-                  <Table.Head>
-                    <Table.HeadCell>
-                      Field
-                    </Table.HeadCell>
-                    <Table.HeadCell>
-                      Value
-                    </Table.HeadCell>
-                  </Table.Head>
-                  <Table.Body className="divide-y">
-                    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        Name
-                      </Table.Cell>
-                      <Table.Cell>
-                        {name}
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        Description
-                      </Table.Cell>
-                      <Table.Cell>
-                        {description}
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        Province
-                      </Table.Cell>
-                      <Table.Cell>
-                        {province}
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        Region
-                      </Table.Cell>
-                      <Table.Cell>
-                        {region}
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        Country
-                      </Table.Cell>
-                      <Table.Cell>
-                        {country}
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        Beds
-                      </Table.Cell>
-                      <Table.Cell>
-                        {beds}
-                      </Table.Cell>
-                    </Table.Row>
-                    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        Website
-                      </Table.Cell>
-                      <Table.Cell>
-                        {url}
-                      </Table.Cell>
-                    </Table.Row>
-                  </Table.Body>
-                </Table>
+                {children}
               </div>
 						</div>
 					</div>

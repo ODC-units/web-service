@@ -1,21 +1,53 @@
 import { z } from 'zod';
 
-export const ShelterSchema = z.object({
-	id: z.string(),
-	name: z.string(),
-	description: z.string(),
-	latitude: z.number(),
-	longitude: z.number(),
-	province: z.string(),
-	region: z.string(),
-	country: z.string(),
-	beds: z.number(),
-	url: z.string(),
-	photo: z.string(),
-  version: z.number(),
-	createdAt: z.string(),
+const ShelterEntityJsonLdHelperSchema = z.object({
+  '@type': z.string(),
+  'geojson:properties': z.object({
+    '@type': z.string(),
+    'schema:identifier': z.string(),
+    'schema:name': z.string(),
+    'schema:description': z.string(),
+    'schema:address': z.object({
+      '@type': z.string(),
+      'schema:addressLocality': z.string(),
+      'schema:addressRegion': z.string(),
+      'schema:addressCountry': z.string(),
+    }),
+    'schema:amenityFeature': z.object({
+      '@type': z.string(),
+      'schema:name': z.string(),
+      'schema:value': z.number(),
+    }),
+    'schema:url': z.string(),
+    'schema:photo': z.string(),
+  }),
+  'geojson:geometry': z.object({
+    'geojson:type': z.string(),
+    'geojson:coordinates': z.array(z.number()),
+  }),
+  'schema:author': z.string(),
+  'schema:dateCreated': z.string(),
 });
 
-export type Shelter = z.infer<typeof ShelterSchema>;
+const ShelterEntityJsonLdSchema = z.object({
+  '@context': z.object({
+    dc: z.string(),
+    schema: z.string(),
+    geojson: z.string(),
+  }),
+  'dc:title': z.string(),
+  'dc:description': z.string(),
+  'dc:creator': z.string(),
+  'dc:date': z.string(),
+  'dc:format': z.string(),
+  'dc:language': z.string(),
+  'dc:source': z.string(),
+  'dc:rights': z.string(),
+  '@type': z.string(),
+  'geojson:features': z.array(ShelterEntityJsonLdHelperSchema),
+});
 
-export const ShelterListSchema = z.array(ShelterSchema);
+export type ShelterEntityJsonLdSchema = z.infer<typeof ShelterEntityJsonLdSchema>;
+export type ShelterEntityJsonLdHelperSchema = z.infer<typeof ShelterEntityJsonLdHelperSchema>;
+
+export { ShelterEntityJsonLdSchema, ShelterEntityJsonLdHelperSchema };
