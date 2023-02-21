@@ -1,3 +1,4 @@
+import { useFirebaseAuth } from '@/modules/auth';
 import { getClient } from '../clients/axiosClient';
 import { API_SHELTERS_PATH } from './constants';
 import {
@@ -6,6 +7,16 @@ import {
 } from './dtos';
 import { ShelterInfoSchema } from './shelterInfo';
 import type { ShelterLocationSchema } from './shelterLocation';
+
+export const createShelter = async (shelterInfo: any) => {
+	const client = getClient();
+
+	console.log(shelterInfo);
+
+	const response = await client.post(API_SHELTERS_PATH, shelterInfo);
+
+	return response;
+};
 
 export const getShelter = async (id: string) => {
 	const client = getClient();
@@ -23,18 +34,13 @@ export const getShelter = async (id: string) => {
 		const {
 			'schema:identifier': id,
 			'schema:name': name,
-			'schema:description': description,
 			'schema:address': address,
-			'schema:amenityFeature': amenities,
 			'schema:url': url,
-			'schema:photo': photo,
 		} = shelter['geojson:properties'];
 		const {
 			'schema:addressLocality': province,
 			'schema:addressRegion': region,
-			'schema:addressCountry': country,
 		} = address;
-		const { 'schema:value': beds } = amenities;
 		const { 'geojson:coordinates': coordinates } = shelter['geojson:geometry'];
 		const [latitude, longitude] = coordinates;
 		const { 'schema:author': author, 'schema:dateCreated': dateCreated } =
@@ -43,15 +49,11 @@ export const getShelter = async (id: string) => {
 		return {
 			id,
 			name,
-			description,
 			province,
 			region,
-			country,
 			latitude,
 			longitude,
-			beds,
 			url,
-			photo,
 			author,
 			dateCreated,
 		};

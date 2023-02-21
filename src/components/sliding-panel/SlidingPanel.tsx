@@ -11,7 +11,7 @@ export interface SlidingPanelProps {
 
 const SlidingPanel: React.FC<PropsWithChildren<SlidingPanelProps>> = ({
 	open = false,
-  children,
+	children,
 	onClose,
 }) => {
 	return (
@@ -27,19 +27,16 @@ const SlidingPanel: React.FC<PropsWithChildren<SlidingPanelProps>> = ({
 				>
 					<div className="pointer-events-auto relative w-screen max-w-md h-full">
 						<div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-lg">
-              <XMarkIcon
-                className="h-6 w-6 cursor-pointer"
-                aria-hidden="true"
-                onClick={onClose}
-              />
+							<XMarkIcon
+								className="h-6 w-6 cursor-pointer"
+								aria-hidden="true"
+								onClick={onClose}
+							/>
 							<div className="px-4 sm:px-6 justify-between items-center">
-                {children}
-              </div>
+								{children}
+							</div>
 						</div>
 					</div>
-
-          
-
 				</Transition.Child>
 			</div>
 		</Transition.Root>

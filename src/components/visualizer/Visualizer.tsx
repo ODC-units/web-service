@@ -46,17 +46,21 @@ const unclusteredPointLayer: LayerProps = {
 	filter: ['!', ['has', 'point_count']],
 	paint: {
 		'circle-color': '#11b4da',
-		'circle-radius': 4,
-		'circle-stroke-width': 1,
+		'circle-radius': 6,
+		'circle-stroke-width': 2,
 		'circle-stroke-color': '#fff',
 	},
 };
 
 export interface VisualizerProps {
 	features?: GeoJSON.Feature[];
+	onFeatureClick?: (id: string) => void;
 }
 
-const Visualizer: React.FC<VisualizerProps> = ({ features = [] }) => {
+const Visualizer: React.FC<VisualizerProps> = ({
+	features = [],
+	onFeatureClick,
+}) => {
 	const mapRef = React.useRef<MapRef>(null);
 
 	const onClick = (event: mapboxgl.MapLayerMouseEvent) => {
@@ -79,8 +83,7 @@ const Visualizer: React.FC<VisualizerProps> = ({ features = [] }) => {
 					});
 				});
 			} else {
-				// TODO
-				console.log(event.features?.[0].properties?.id);
+				onFeatureClick?.(event.features[0].properties?.id as string);
 			}
 		}
 	};
@@ -94,6 +97,8 @@ const Visualizer: React.FC<VisualizerProps> = ({ features = [] }) => {
 			[features]
 		);
 
+	console.log(featureCollection);
+
 	return (
 		<div className="h-full">
 			<Map
@@ -103,6 +108,15 @@ const Visualizer: React.FC<VisualizerProps> = ({ features = [] }) => {
 				interactiveLayerIds={[clusterLayer.id!, unclusteredPointLayer.id!]}
 				onClick={onClick}
 				ref={mapRef}
+				initialViewState={{
+					latitude: 41.645835,
+					longitude: 12.433583,
+					zoom: 5,
+				}}
+				maxBounds={[
+					[6.367489, 36.410317], // Southwest coordinates
+					[18.371962, 47.131914], // Northeast coordinates
+				]}
 			>
 				<Source
 					id="earthquakes"

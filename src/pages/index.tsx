@@ -5,11 +5,9 @@ import type { NextPage } from 'next';
 
 const Home: NextPage = () => {
 	return (
-		<Page.Authorized>
-			<Layout>
-				<ViewShelters />
-			</Layout>
-		</Page.Authorized>
+		<Layout>
+			<ViewShelters />
+		</Layout>
 	);
 };
 

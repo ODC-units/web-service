@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
+import { API_BASE_URL } from '@/api/constants';
 import type { ShelterEntityJsonLdSchema } from '@/api/shelters/dtos';
 import type { ShelterInfoSchema } from '@/api/shelters/shelterInfo';
 import { ShelterLocationSchema } from '@/api/shelters/shelterLocation';
-import type { Location } from '@/components';
 import { SlidingPanel, Visualizer } from '@/components';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
-import { Alert, Spinner, Table } from 'flowbite-react';
-import { MapboxGeoJSONFeature } from 'mapbox-gl';
+import { Alert, Button, Spinner, Table } from 'flowbite-react';
+import Link from 'next/link';
 import React from 'react';
 import useShelter from '../../hooks/use-shelter/useShelter';
 import useShelters from '../../hooks/use-shelters/useShelters';
@@ -23,7 +23,7 @@ export const ViewShelters: React.FC = () => {
 			type: 'Feature',
 			geometry: {
 				type: 'Point',
-				coordinates: [latitude, longitude],
+				coordinates: [longitude, latitude],
 			},
 			properties: {
 				id,
@@ -31,7 +31,7 @@ export const ViewShelters: React.FC = () => {
 		})
 	);
 
-	const onShelterClick = React.useCallback((id: ShelterInfoSchema['id']) => {
+	const onFeatureClick = React.useCallback((id: ShelterInfoSchema['id']) => {
 		setSelectedShelterId(id);
 		setIsPanelOpen(true);
 	}, []);
@@ -58,7 +58,7 @@ export const ViewShelters: React.FC = () => {
 
 	return (
 		<>
-			<Visualizer locations={features} onLocationClick={onShelterClick} />
+			<Visualizer features={features} onFeatureClick={onFeatureClick} />
 
 			<SlidingPanel open={isPanelOpen} onClose={onShelterClose}>
 				<Table striped={true}>
@@ -75,9 +75,9 @@ export const ViewShelters: React.FC = () => {
 						</Table.Row>
 						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-								Description
+								Region
 							</Table.Cell>
-							<Table.Cell>{shelter?.description}</Table.Cell>
+							<Table.Cell>{shelter?.region}</Table.Cell>
 						</Table.Row>
 						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
@@ -87,21 +87,11 @@ export const ViewShelters: React.FC = () => {
 						</Table.Row>
 						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-								Region
+								Coordinates
 							</Table.Cell>
-							<Table.Cell>{shelter?.region}</Table.Cell>
-						</Table.Row>
-						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-								Country
+							<Table.Cell>
+								{shelter?.latitude}, {shelter?.longitude}
 							</Table.Cell>
-							<Table.Cell>{shelter?.country}</Table.Cell>
-						</Table.Row>
-						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-								Beds
-							</Table.Cell>
-							<Table.Cell>{shelter?.beds}</Table.Cell>
 						</Table.Row>
 						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
@@ -109,8 +99,22 @@ export const ViewShelters: React.FC = () => {
 							</Table.Cell>
 							<Table.Cell>{shelter?.url}</Table.Cell>
 						</Table.Row>
+						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+								Services
+							</Table.Cell>
+							<Table.Cell>{shelter?.url}</Table.Cell>
+						</Table.Row>
 					</Table.Body>
 				</Table>
+
+				<hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+
+				<center>
+					<a href={`${API_BASE_URL}/v1/shelters/${shelter?.id}`}>
+						view GeoJSON
+					</a>
+				</center>
 			</SlidingPanel>
 		</>
 	);

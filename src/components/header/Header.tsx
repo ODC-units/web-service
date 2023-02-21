@@ -1,5 +1,6 @@
 import { useAuth } from '@/modules/auth';
-import { Avatar, Dropdown, Navbar } from 'flowbite-react';
+import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react';
+import { NavbarCollapse } from 'flowbite-react/lib/esm/components/Navbar/NavbarCollapse';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -27,7 +28,15 @@ const Header: React.FC = () => {
 						</Dropdown.Item>
 					</Dropdown>
 				)}
-				<Navbar.Toggle />
+				{!user && (
+					<Navbar.Collapse>
+						<Navbar.Link href="/login" active={pathname === '/login'}>
+							<Button className="bg-pink-500 text-white active:bg-pink-600 hover:bg-pink-600 font-bold text-xs px-4 py-2 rounded">
+								<span className="text-sm font-medium">Sign in</span>
+							</Button>
+						</Navbar.Link>
+					</Navbar.Collapse>
+				)}
 			</div>
 			<Navbar.Collapse>
 				<Navbar.Link href="/" active={pathname === '/'}>
@@ -38,6 +47,9 @@ const Header: React.FC = () => {
 					active={pathname === '/documentation'}
 				>
 					API Documentation
+				</Navbar.Link>
+				<Navbar.Link href="/form" active={pathname === '/form'}>
+					Contribute
 				</Navbar.Link>
 			</Navbar.Collapse>
 		</Navbar>
