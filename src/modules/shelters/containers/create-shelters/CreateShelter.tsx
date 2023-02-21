@@ -1,5 +1,5 @@
 import { createShelter } from '@/api/shelters/providers';
-import { ShelterInfoSchema } from '@/api/shelters/shelterInfo';
+import { ShelterInfo } from '@/api/shelters/shelterInfo';
 import { useNotifications } from '@/modules/notifications';
 import React from 'react';
 import { ShelterForm } from '../../components';
@@ -11,23 +11,37 @@ export const CreateShelter: React.FC = () => {
 
 	const handleSubmit = React.useCallback(
 		async ({
-			name,
-			province,
-			region,
-			latitude,
-			longitude,
-			url,
+			Restaurant,
+			Sanitary,
+			Electricity,
+			Beds,
+			...shelterFormModel
 		}: ShelterFormModel) => {
 			setIsLoading(true);
 
+			const amenities = Object.entries({
+				Restaurant,
+				Sanitary,
+				Electricity,
+				Beds,
+			}).reduce((acc, [key, value]) => {
+				if (value) {
+					acc = [
+						...acc,
+						{
+							serviceId: key,
+							value: 'true',
+						},
+					];
+				}
+
+				return acc;
+			}, [] as ShelterInfo['amenities']);
+
 			try {
 				await createShelter({
-					name,
-					province,
-					region,
-					latitude,
-					longitude,
-					url,
+					...shelterFormModel,
+					amenities: amenities,
 				});
 			} catch (error) {
 				addNotification({

@@ -5,10 +5,10 @@ import {
 	ShelterEntityJsonLdSchema,
 	ShelterEntityJsonLdHelperSchema,
 } from './dtos';
-import { ShelterInfoSchema } from './shelterInfo';
+import { ShelterInfo } from './shelterInfo';
 import type { ShelterLocationSchema } from './shelterLocation';
 
-export const createShelter = async (shelterInfo: any) => {
+export const createShelter = async (shelterInfo: ShelterInfo) => {
 	const client = getClient();
 
 	console.log(shelterInfo);
@@ -18,7 +18,7 @@ export const createShelter = async (shelterInfo: any) => {
 	return response;
 };
 
-export const getShelter = async (id: string) => {
+export const getShelter = async (id: string): Promise<ShelterInfo> => {
 	const client = getClient();
 
 	const response = await client.get(`${API_SHELTERS_PATH}/${id}`);
@@ -35,14 +35,19 @@ export const getShelter = async (id: string) => {
 			'schema:identifier': id,
 			'schema:name': name,
 			'schema:address': address,
+			'schema:amenityFeature': amenities,
 			'schema:url': url,
 		} = shelter['geojson:properties'];
+
 		const {
 			'schema:addressLocality': province,
 			'schema:addressRegion': region,
 		} = address;
+
 		const { 'geojson:coordinates': coordinates } = shelter['geojson:geometry'];
+
 		const [latitude, longitude] = coordinates;
+
 		const { 'schema:author': author, 'schema:dateCreated': dateCreated } =
 			shelter;
 
@@ -53,6 +58,10 @@ export const getShelter = async (id: string) => {
 			region,
 			latitude,
 			longitude,
+			amenities: amenities.map((amenity) => ({
+				serviceId: amenity['schema:name'],
+				value: amenity['schema:value'],
+			})),
 			url,
 			author,
 			dateCreated,

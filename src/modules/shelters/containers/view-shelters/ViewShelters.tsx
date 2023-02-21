@@ -1,9 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import { API_BASE_URL } from '@/api/constants';
 import type { ShelterEntityJsonLdSchema } from '@/api/shelters/dtos';
-import type { ShelterInfoSchema } from '@/api/shelters/shelterInfo';
+import type { ShelterInfo } from '@/api/shelters/shelterInfo';
 import { ShelterLocationSchema } from '@/api/shelters/shelterLocation';
 import { SlidingPanel, Visualizer } from '@/components';
+import {
+	faBed,
+	faEnvelope,
+	faUtensils,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { Alert, Button, Spinner, Table } from 'flowbite-react';
 import Link from 'next/link';
@@ -14,7 +20,7 @@ import useShelters from '../../hooks/use-shelters/useShelters';
 export const ViewShelters: React.FC = () => {
 	const { data: shelters, error: sheltersError } = useShelters();
 	const [selectedShelterId, setSelectedShelterId] =
-		React.useState<ShelterInfoSchema['id']>();
+		React.useState<ShelterInfo['id']>();
 	const { data: shelter, error: shelterError } = useShelter(selectedShelterId);
 	const [isPanelOpen, setIsPanelOpen] = React.useState(false);
 
@@ -31,7 +37,7 @@ export const ViewShelters: React.FC = () => {
 		})
 	);
 
-	const onFeatureClick = React.useCallback((id: ShelterInfoSchema['id']) => {
+	const onFeatureClick = React.useCallback((id: ShelterInfo['id']) => {
 		setSelectedShelterId(id);
 		setIsPanelOpen(true);
 	}, []);
@@ -103,7 +109,20 @@ export const ViewShelters: React.FC = () => {
 							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
 								Services
 							</Table.Cell>
-							<Table.Cell>{shelter?.url}</Table.Cell>
+							<Table.Cell>
+								{shelter?.amenities?.map((amenity) => {
+									switch (amenity.serviceId) {
+										case 'Restaurant':
+											return (
+												<FontAwesomeIcon icon={faUtensils} className="mr-2" />
+											);
+										case 'Beds':
+											return <FontAwesomeIcon icon={faBed} className="mr-2" />;
+										default:
+											return null;
+									}
+								}) || 'No services'}
+							</Table.Cell>
 						</Table.Row>
 					</Table.Body>
 				</Table>

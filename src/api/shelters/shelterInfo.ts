@@ -7,10 +7,16 @@ const ShelterInfoSchema = z.object({
 	region: z.string(),
 	latitude: z.number(),
 	longitude: z.number(),
+	amenities: z.array(
+		z.object({
+			serviceId: z.string(),
+			value: z.string(),
+		})
+	),
 	url: z.string(),
 	author: z.string().optional(),
 	dateCreated: z.string().optional(),
 });
 
-export type ShelterInfoSchema = z.infer<typeof ShelterInfoSchema>;
+export type ShelterInfo = z.infer<typeof ShelterInfoSchema>;
 export { ShelterInfoSchema };

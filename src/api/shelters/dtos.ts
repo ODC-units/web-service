@@ -11,6 +11,13 @@ const ShelterEntityJsonLdHelperSchema = z.object({
 			'schema:addressLocality': z.string(),
 			'schema:addressRegion': z.string(),
 		}),
+		'schema:amenityFeature': z.array(
+			z.object({
+				'@type': z.string(),
+				'schema:name': z.string(),
+				'schema:value': z.string(),
+			})
+		),
 		'schema:url': z.string(),
 	}),
 	'geojson:geometry': z.object({

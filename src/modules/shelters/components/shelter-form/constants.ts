@@ -28,12 +28,11 @@ export const SHELTER_FORM_VALIDATION_SCHEMA = z.object({
 		required_error: 'Longitude is required',
 		invalid_type_error: 'Invalid longitude',
 	}),
-	url: z
-		.string({
-			required_error: 'Website is required',
-			invalid_type_error: 'Invalid website',
-		})
-		.min(1, 'Website is required'),
+	url: z.string({}),
+	Restaurant: z.boolean({}),
+	Sanitary: z.boolean({}),
+	Electricity: z.boolean({}),
+	Beds: z.boolean({}),
 });
 
 export const SHELTER_FORM_INITIAL_VALUES: ShelterFormModel = {
@@ -43,4 +42,8 @@ export const SHELTER_FORM_INITIAL_VALUES: ShelterFormModel = {
 	latitude: 0,
 	longitude: 0,
 	url: '',
+	Restaurant: false,
+	Sanitary: false,
+	Electricity: false,
+	Beds: false,
 };

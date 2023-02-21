@@ -1,4 +1,4 @@
-import { Button, Label, TextInput } from 'flowbite-react';
+import { Button, Checkbox, Label, TextInput } from 'flowbite-react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import {
@@ -24,9 +24,12 @@ export const ShelterForm: React.FC<ShelterFormProps> = ({
 		onSubmit={onSubmit}
 	>
 		<Form className="flex flex-col gap-4">
+			<h1 style={{ fontSize: '32px', fontWeight: 'bold' }}>
+				Shelter Informations
+			</h1>
 			<div className="flex gap-4">
 				<div className="flex-1">
-					<Label htmlFor="name" value="Shelter name" />
+					<Label htmlFor="name" value="Shelter name *" />
 					<Field
 						id="name"
 						name="name"
@@ -41,7 +44,7 @@ export const ShelterForm: React.FC<ShelterFormProps> = ({
 					/>
 				</div>
 				<div className="flex-2">
-					<Label htmlFor="region" value="Region" />
+					<Label htmlFor="region" value="Region *" />
 					<Field
 						id="region"
 						name="region"
@@ -56,7 +59,7 @@ export const ShelterForm: React.FC<ShelterFormProps> = ({
 					/>
 				</div>
 				<div className="flex-2">
-					<Label htmlFor="province" value="Province" />
+					<Label htmlFor="province" value="Province *" />
 					<Field
 						id="province"
 						name="province"
@@ -73,7 +76,7 @@ export const ShelterForm: React.FC<ShelterFormProps> = ({
 			</div>
 			<div className="flex gap-4">
 				<div className="flex-1">
-					<Label htmlFor="latitude" value="Latitude" />
+					<Label htmlFor="latitude" value="Latitude *" />
 					<Field
 						id="latitude"
 						name="latitude"
@@ -88,7 +91,7 @@ export const ShelterForm: React.FC<ShelterFormProps> = ({
 					/>
 				</div>
 				<div className="flex-1">
-					<Label htmlFor="longitude" value="Longitude" />
+					<Label htmlFor="longitude" value="Longitude *" />
 					<Field
 						id="longitude"
 						name="longitude"
@@ -118,6 +121,73 @@ export const ShelterForm: React.FC<ShelterFormProps> = ({
 						component="div"
 						className="text-red-600 text-sm font-medium"
 					/>
+				</div>
+			</div>
+			<br />
+			<h1 style={{ fontSize: '32px', fontWeight: 'bold' }}>Shelter Services</h1>
+			<div className="flex gap-4">
+				<div className="flex-1">
+					<div className="flex items-center mb-4">
+						<Field
+							id="Restaurant"
+							name="Restaurant"
+							type="checkbox"
+							placeholder="Restaurant"
+							as={TextInput}
+						/>
+						<label
+							htmlFor="Restaurant"
+							className="ml-2 text-lg font-medium text-gray-900 dark:text-gray-300"
+						>
+							Restaurant
+						</label>
+					</div>
+				</div>
+				<div className="flex-1">
+					<div className="flex items-center mb-4">
+						<Field
+							id="Sanitary"
+							name="Sanitary"
+							type="checkbox"
+							placeholder="Sanitary"
+							as={TextInput}
+						/>
+						<label
+							htmlFor="Sanitary"
+							className="ml-2 text-lg font-medium text-gray-900 dark:text-gray-300"
+						>
+							Sanitary
+						</label>
+					</div>
+				</div>
+				<div className="flex-1">
+					<div className="flex items-center mb-4">
+						<Field
+							id="Electricity"
+							name="Electricity"
+							type="checkbox"
+							placeholder="Electricity"
+							as={TextInput}
+						/>
+						<label
+							htmlFor="Electricity"
+							className="ml-2 text-lg font-medium text-gray-900 dark:text-gray-300"
+						>
+							Electricity
+						</label>
+					</div>
+				</div>
+				<div className="flex-1">
+					<div className="flex items-center mb-4">
+						<Field
+							id="Beds"
+							name="Beds"
+							type="checkbox"
+							placeholder="Beds"
+							as={TextInput}
+						/>
+						<label htmlFor="Beds">Beds</label>
+					</div>
 				</div>
 			</div>
 			<Button type="submit" disabled={disabled}>
