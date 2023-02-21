@@ -11,7 +11,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
 	children,
 }) => {
 	return (
-		<main className="flex flex-col h-screen overflow-hidden">
+		<main className="flex flex-col h-screen">
 			<Header />
 			<div
 				className={`h-full relative ${

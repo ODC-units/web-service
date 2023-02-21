@@ -26,15 +26,14 @@ const SlidingPanel: React.FC<PropsWithChildren<SlidingPanelProps>> = ({
 					leaveTo="translate-x-full"
 				>
 					<div className="pointer-events-auto relative w-screen max-w-md h-full">
-						<div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-lg">
+						<div className="px-4 sm:px-6flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-lg">
 							<XMarkIcon
 								className="h-6 w-6 cursor-pointer"
 								aria-hidden="true"
 								onClick={onClose}
 							/>
-							<div className="px-4 sm:px-6 justify-between items-center">
-								{children}
-							</div>
+							<br />{' '}
+							<div className="justify-between items-center">{children}</div>
 						</div>
 					</div>
 				</Transition.Child>

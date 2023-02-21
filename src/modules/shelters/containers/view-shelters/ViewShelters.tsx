@@ -6,7 +6,9 @@ import { ShelterLocationSchema } from '@/api/shelters/shelterLocation';
 import { SlidingPanel, Visualizer } from '@/components';
 import {
 	faBed,
+	faBolt,
 	faEnvelope,
+	faShower,
 	faUtensils,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -118,6 +120,12 @@ export const ViewShelters: React.FC = () => {
 											);
 										case 'Beds':
 											return <FontAwesomeIcon icon={faBed} className="mr-2" />;
+										case 'Sanitary':
+											return (
+												<FontAwesomeIcon icon={faShower} className="mr-2" />
+											);
+										case 'Electricity':
+											return <FontAwesomeIcon icon={faBolt} className="mr-2" />;
 										default:
 											return null;
 									}
