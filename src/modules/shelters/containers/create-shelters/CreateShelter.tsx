@@ -19,6 +19,8 @@ export const CreateShelter: React.FC = () => {
 		}: ShelterFormModel) => {
 			setIsLoading(true);
 
+			console.log(shelterFormModel);
+
 			const amenities = Object.entries({
 				Restaurant,
 				Sanitary,
