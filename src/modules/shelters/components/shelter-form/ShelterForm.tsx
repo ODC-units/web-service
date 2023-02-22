@@ -15,6 +15,11 @@ export interface ShelterFormProps {
 }
 
 const regions = [
+	{
+		id: 0,
+		name: 'Friuli Venezia Giulia',
+		provinces: ['Gorizia', 'Pordenone', 'Udine', 'Trieste'],
+	},
 	{ id: 1, name: 'Lombardia', provinces: ['Milano', 'Bergamo', 'Brescia'] },
 	{ id: 2, name: 'Toscana', provinces: ['Firenze', 'Pisa', 'Siena'] },
 	{
@@ -24,29 +29,10 @@ const regions = [
 	},
 ];
 
-interface ProvinceSelectProps {
-	region: string;
-}
-
-const ProvinceSelect = ({ region, ...props }: ProvinceSelectProps) => {
-	const regionProvinces =
-		regions.find((r) => r.name === region)?.provinces || [];
-	return (
-		<Field as={Select} {...props} id="province" name="province">
-			{regionProvinces.map((province) => (
-				<option key={province} value={province}>
-					{province}
-				</option>
-			))}
-		</Field>
-	);
-};
-
 export const ShelterForm: React.FC<ShelterFormProps> = ({
 	disabled,
 	onSubmit,
 }) => {
-	const [selectedRegion, setSelectedRegion] = useState('');
 	return (
 		<Formik
 			initialValues={SHELTER_FORM_INITIAL_VALUES}

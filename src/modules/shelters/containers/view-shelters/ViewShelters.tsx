@@ -132,6 +132,12 @@ export const ViewShelters: React.FC = () => {
 								}) || 'No services'}
 							</Table.Cell>
 						</Table.Row>
+						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+								Author
+							</Table.Cell>
+							<Table.Cell>{shelter?.author}</Table.Cell>
+						</Table.Row>
 					</Table.Body>
 				</Table>
 
@@ -139,7 +145,11 @@ export const ViewShelters: React.FC = () => {
 
 				<center>
 					<a href={`${API_BASE_URL}/v1/shelters/${shelter?.id}`}>
-						view GeoJSON
+						Download GeoJSON
+					</a>
+					<br />
+					<a href={`${API_BASE_URL}/v1/shelters/${shelter?.id}`}>
+						View History
 					</a>
 				</center>
 			</SlidingPanel>
