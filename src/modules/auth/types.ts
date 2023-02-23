@@ -4,7 +4,11 @@ export interface UseAuthResult {
 	user: User | null;
 	loading: boolean;
 	loginWithEmailPassword: (email: string, password: string) => Promise<void>;
-	registerWithEmailPassword: (email: string, password: string) => Promise<void>;
+	registerWithEmailPassword: (
+		username: string,
+		email: string,
+		password: string
+	) => Promise<void>;
 	logout: () => Promise<void>;
 }
 

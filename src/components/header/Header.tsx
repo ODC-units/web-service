@@ -1,6 +1,9 @@
 import { useAuth } from '@/modules/auth';
+import { getUserToken } from '@/modules/auth/utils';
+import { getIdToken } from 'firebase/auth';
 import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react';
 import { NavbarCollapse } from 'flowbite-react/lib/esm/components/Navbar/NavbarCollapse';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -12,9 +15,20 @@ const Header: React.FC = () => {
 		void logout();
 	}, [logout]);
 
+	const copyToken = React.useCallback(async () => {
+		try {
+			if (user) {
+				const token = await getIdToken(user);
+				navigator.clipboard.writeText(token);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	}, []);
+
 	return (
 		<Navbar className="border-b lg:py-6 px-4 sm:px-6 lg:px-8">
-			api
+			Open Shelter Api
 			<div className="flex md:order-2">
 				{user && (
 					<Dropdown arrowIcon={false} inline={true} label={<Avatar rounded />}>
@@ -23,6 +37,11 @@ const Header: React.FC = () => {
 								{user?.email}
 							</span>
 						</Dropdown.Header>
+						<Dropdown.Item onClick={copyToken}>
+							<span className="block truncate text-sm font-medium">
+								Copy JWT Token
+							</span>
+						</Dropdown.Item>
 						<Dropdown.Item onClick={handleLogout}>
 							<span className="text-red-600 text-sm font-medium">Sign out</span>
 						</Dropdown.Item>
@@ -30,11 +49,14 @@ const Header: React.FC = () => {
 				)}
 				{!user && (
 					<Navbar.Collapse>
-						<Navbar.Link href="/login" active={pathname === '/login'}>
-							<Button className="bg-pink-500 text-white active:bg-pink-600 hover:bg-pink-600 font-bold text-xs px-4 py-2 rounded">
-								<span className="text-sm font-medium">Sign in</span>
+						<Button.Group>
+							<Button color="gray">
+								<Link href={`/login`}>Login</Link>
 							</Button>
-						</Navbar.Link>
+							<Button color="gray">
+								<Link href={`/register`}>Register</Link>
+							</Button>
+						</Button.Group>
 					</Navbar.Collapse>
 				)}
 			</div>

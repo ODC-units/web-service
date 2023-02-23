@@ -8,9 +8,9 @@ export const ViewNotifications: React.FC = () => {
 	return (
 		<div className="flex flex-col gap-4">
 			{notifications.map((notification, i) => (
-				<Toast key={i}>
+				<Toast key={i} className="bg-green-600">
 					<ExclamationCircleIcon className="h-5 w-5" />
-					<div className="ml-3 text-sm font-normal">{notification.message}</div>
+					<div className="ml-3 text-sm font-normal">{notification.title}</div>
 					<Toast.Toggle />
 				</Toast>
 			))}

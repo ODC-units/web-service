@@ -1,5 +1,5 @@
 import { Layout } from '@/components';
-import { Login as LoginUser, Page, useAuth } from '@/modules/auth';
+import { Register as RegisterUser, Page, useAuth } from '@/modules/auth';
 import type {
 	GetServerSidePropsContext,
 	GetServerSidePropsResult,
@@ -10,19 +10,17 @@ import type { Route } from 'nextjs-routes';
 import type { ParsedUrlQuery } from 'querystring';
 import React from 'react';
 
-interface LoginProps {
+interface RegisterProps {
 	callbackUrl: Route['pathname'];
 }
 
-const Login: NextPage<LoginProps> = ({ callbackUrl }) => {
+const Register: NextPage<RegisterProps> = ({ callbackUrl }) => {
 	const router = useRouter();
 
 	return (
 		<Page.OnlyUnauthorized>
 			<Layout padded>
-				<LoginUser />
-				{/* <button onClick={handleLogin}>Login</button>
-				<button onClick={handleRegister}>Register</button> */}
+				<RegisterUser />
 			</Layout>
 		</Page.OnlyUnauthorized>
 	);
@@ -34,7 +32,7 @@ interface Query extends ParsedUrlQuery {
 
 export const getServerSideProps = (
 	context: GetServerSidePropsContext
-): GetServerSidePropsResult<LoginProps> => {
+): GetServerSidePropsResult<RegisterProps> => {
 	const { callbackUrl } = context.query as Query;
 
 	return {
@@ -44,4 +42,4 @@ export const getServerSideProps = (
 	};
 };
 
-export default Login;
+export default Register;

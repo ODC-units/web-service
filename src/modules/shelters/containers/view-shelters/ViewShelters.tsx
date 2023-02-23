@@ -116,16 +116,36 @@ export const ViewShelters: React.FC = () => {
 									switch (amenity.serviceId) {
 										case 'Restaurant':
 											return (
-												<FontAwesomeIcon icon={faUtensils} className="mr-2" />
+												<FontAwesomeIcon
+													key={amenity.serviceId}
+													icon={faUtensils}
+													className="mr-2"
+												/>
 											);
 										case 'Beds':
-											return <FontAwesomeIcon icon={faBed} className="mr-2" />;
+											return (
+												<FontAwesomeIcon
+													key={amenity.serviceId}
+													icon={faBed}
+													className="mr-2"
+												/>
+											);
 										case 'Sanitary':
 											return (
-												<FontAwesomeIcon icon={faShower} className="mr-2" />
+												<FontAwesomeIcon
+													key={amenity.serviceId}
+													icon={faShower}
+													className="mr-2"
+												/>
 											);
 										case 'Electricity':
-											return <FontAwesomeIcon icon={faBolt} className="mr-2" />;
+											return (
+												<FontAwesomeIcon
+													key={amenity.serviceId}
+													icon={faBolt}
+													className="mr-2"
+												/>
+											);
 										default:
 											return null;
 									}
@@ -144,13 +164,33 @@ export const ViewShelters: React.FC = () => {
 				<hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
 
 				<center>
-					<a href={`${API_BASE_URL}/v1/shelters/${shelter?.id}`}>
-						Download GeoJSON
-					</a>
-					<br />
-					<a href={`${API_BASE_URL}/v1/shelters/${shelter?.id}`}>
-						View History
-					</a>
+					<Button.Group>
+						<Button color="gray">
+							<Link
+								href={{
+									pathname: '/update',
+									query: { id: shelter?.id },
+								}}
+							>
+								Update
+							</Link>
+						</Button>
+						<Button color="gray">
+							<a href={`${API_BASE_URL}/v1/shelters/${shelter?.id}`}>
+								Get GeoJSON
+							</a>
+						</Button>
+						<Button color="gray">
+							<Link
+								href={{
+									pathname: '/changes',
+									query: { id: shelter?.id },
+								}}
+							>
+								View History
+							</Link>
+						</Button>
+					</Button.Group>
 				</center>
 			</SlidingPanel>
 		</>

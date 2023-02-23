@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Auth, User } from 'firebase/auth';
+import { Auth, updateCurrentUser, updateProfile, User } from 'firebase/auth';
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
@@ -47,9 +47,13 @@ const useFirebaseAuth = (
 	);
 
 	const registerWithEmailPassword = React.useCallback(
-		async (email: string, password: string) => {
+		async (username: string, email: string, password: string) => {
 			setLoading(true);
 			await createUserWithEmailAndPassword(auth, email, password);
+			// Update user profile
+			await updateProfile(auth.currentUser!, {
+				displayName: username,
+			});
 			setLoading(false);
 		},
 		[auth]

@@ -45,6 +45,10 @@ export const CreateShelter: React.FC = () => {
 					...shelterFormModel,
 					amenities: amenities,
 				});
+				addNotification({
+					title: 'Sheleter added',
+					severity: 'success',
+				});
 			} catch (error) {
 				addNotification({
 					title: 'Sheleter creation failed',

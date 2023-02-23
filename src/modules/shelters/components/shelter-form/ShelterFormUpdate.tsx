@@ -3,16 +3,13 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React from 'react';
 import { SetStateAction, useState } from 'react';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
-import {
-	SHELTER_FORM_INITIAL_VALUES,
-	SHELTER_FORM_VALIDATION_SCHEMA,
-} from './constants';
+import { SHELTER_FORM_VALIDATION_SCHEMA } from './constants';
 import { ShelterFormModel } from './types';
 
 export interface ShelterFormProps {
 	disabled?: boolean;
 	onSubmit: (loginValues: ShelterFormModel) => void;
-	shelter?: ShelterFormModel;
+	shelter: ShelterFormModel;
 }
 
 const regions = [
@@ -30,13 +27,14 @@ const regions = [
 	},
 ];
 
-export const ShelterForm: React.FC<ShelterFormProps> = ({
+export const ShelterFormUpdate: React.FC<ShelterFormProps> = ({
 	disabled,
 	onSubmit,
+	shelter,
 }) => {
 	return (
 		<Formik
-			initialValues={SHELTER_FORM_INITIAL_VALUES}
+			initialValues={shelter}
 			validationSchema={toFormikValidationSchema(
 				SHELTER_FORM_VALIDATION_SCHEMA
 			)}
@@ -226,7 +224,7 @@ export const ShelterForm: React.FC<ShelterFormProps> = ({
 						</div>
 					</div>
 					<Button type="submit" disabled={disabled}>
-						Add Shelter
+						Update Shelter
 					</Button>
 				</Form>
 			)}
@@ -234,4 +232,4 @@ export const ShelterForm: React.FC<ShelterFormProps> = ({
 	);
 };
 
-export default ShelterForm;
+export default ShelterFormUpdate;

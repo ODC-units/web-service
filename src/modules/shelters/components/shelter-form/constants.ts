@@ -28,7 +28,13 @@ export const SHELTER_FORM_VALIDATION_SCHEMA = z.object({
 		required_error: 'Longitude is required',
 		invalid_type_error: 'Invalid longitude',
 	}),
-	url: z.string({}),
+	url: z
+		.string({
+			required_error: 'Url is required',
+			invalid_type_error: 'Invalid url',
+		})
+		.url('Invalid url')
+		.min(1, 'Url is required'),
 	Restaurant: z.boolean({}),
 	Sanitary: z.boolean({}),
 	Electricity: z.boolean({}),
