@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useRef } from 'react';
 import { render } from 'react-dom';
 
-import Map, { Layer, Marker, PositionOptions, Source } from 'react-map-gl';
+import Map, { Layer, Source } from 'react-map-gl';
 
 const MAPBOX_API_KEY = process.env.NEXT_PUBLIC_MAPBOX_API_KEY || 'invalid';
 
@@ -45,7 +45,7 @@ const unclusteredPointLayer: LayerProps = {
 	source: 'earthquakes',
 	filter: ['!', ['has', 'point_count']],
 	paint: {
-		'circle-color': '#11b4da',
+		'circle-color': ['match', ['get', 'type'], 'shelter', '#fbb03b', '#ccc'],
 		'circle-radius': 6,
 		'circle-stroke-width': 2,
 		'circle-stroke-color': '#fff',
@@ -65,6 +65,7 @@ const Visualizer: React.FC<VisualizerProps> = ({
 
 	const onClick = (event: mapboxgl.MapLayerMouseEvent) => {
 		if (event.features && event.features.length > 0) {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			const clusterId = event.features[0].properties?.cluster_id;
 
 			if (clusterId) {
@@ -72,6 +73,7 @@ const Visualizer: React.FC<VisualizerProps> = ({
 					'earthquakes'
 				) as GeoJSONSource;
 
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 				mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
 					if (err) {
 						return;

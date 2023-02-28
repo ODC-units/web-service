@@ -5,13 +5,11 @@ import {
 	ShelterEntityJsonLdSchema,
 	ShelterEntityJsonLdHelperSchema,
 } from './dtos';
-import { ShelterInfo } from './shelterInfo';
+import type { ShelterInfo } from './shelterInfo';
 import type { ShelterLocationSchema } from './shelterLocation';
 
 export const createShelter = async (shelterInfo: ShelterInfo) => {
 	const client = getClient();
-
-	console.log(shelterInfo);
 
 	const response = await client.post(API_SHELTERS_PATH, shelterInfo);
 
@@ -22,7 +20,8 @@ export const updateShelter = async (shelterInfo: ShelterInfo) => {
 	const client = getClient();
 
 	const response = await client.put(
-		`${API_SHELTERS_PATH}/${shelterInfo.id}`,
+		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+		`${API_SHELTERS_PATH}/${shelterInfo?.id}`,
 		shelterInfo
 	);
 
@@ -43,6 +42,7 @@ export const getShelter = async (id: string): Promise<ShelterInfo> => {
 
 	const shelterInfo = shelterEntity.map((shelter) => {
 		const {
+			// eslint-disable-next-line @typescript-eslint/no-shadow
 			'schema:identifier': id,
 			'schema:name': name,
 			'schema:address': address,
@@ -70,8 +70,8 @@ export const getShelter = async (id: string): Promise<ShelterInfo> => {
 			latitude,
 			longitude,
 			amenities: amenities.map((amenity) => ({
-				serviceId: amenity['schema:name'],
-				value: amenity['schema:value'],
+				serviceAttribute: amenity['schema:name'],
+				serviceValue: amenity['schema:value'],
 			})),
 			url,
 			author,
@@ -116,8 +116,6 @@ export const getShelterChanges = async (id: string): Promise<ShelterInfo[]> => {
 
 	const schema = ShelterEntityJsonLdSchema.parse(response.data);
 
-	const shelters: ShelterInfo[] = [];
-
 	const sheltersEntity = schema['geojson:features'].map((shelter) => {
 		const helperSchema = ShelterEntityJsonLdHelperSchema.parse(shelter);
 		return helperSchema;
@@ -125,6 +123,7 @@ export const getShelterChanges = async (id: string): Promise<ShelterInfo[]> => {
 
 	const sheltersInfo = sheltersEntity.map((shelter) => {
 		const {
+			// eslint-disable-next-line @typescript-eslint/no-shadow
 			'schema:identifier': id,
 			'schema:name': name,
 			'schema:address': address,
@@ -152,8 +151,8 @@ export const getShelterChanges = async (id: string): Promise<ShelterInfo[]> => {
 			latitude,
 			longitude,
 			amenities: amenities.map((amenity) => ({
-				serviceId: amenity['schema:name'],
-				value: amenity['schema:value'],
+				serviceAttribute: amenity['schema:name'],
+				serviceValue: amenity['schema:value'],
 			})),
 			url,
 			author,

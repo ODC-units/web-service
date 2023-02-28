@@ -9,8 +9,8 @@ const ShelterInfoSchema = z.object({
 	longitude: z.number(),
 	amenities: z.array(
 		z.object({
-			serviceId: z.string(),
-			value: z.string(),
+			serviceAttribute: z.string(),
+			serviceValue: z.string(),
 		})
 	),
 	url: z.string(),

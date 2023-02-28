@@ -1,18 +1,16 @@
 import { Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { Table } from 'flowbite-react';
+import { Button } from 'flowbite-react';
 import type { PropsWithChildren } from 'react';
 
 export interface SlidingPanelProps {
 	open?: boolean;
 	children?: React.ReactNode;
-	onClose?: VoidFunction;
 }
 
 const SlidingPanel: React.FC<PropsWithChildren<SlidingPanelProps>> = ({
 	open = false,
 	children,
-	onClose,
 }) => {
 	return (
 		<Transition.Root show={open}>
@@ -27,12 +25,6 @@ const SlidingPanel: React.FC<PropsWithChildren<SlidingPanelProps>> = ({
 				>
 					<div className="pointer-events-auto relative w-screen max-w-md h-full">
 						<div className="px-4 sm:px-6flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-lg">
-							<XMarkIcon
-								className="h-6 w-6 cursor-pointer"
-								aria-hidden="true"
-								onClick={onClose}
-							/>
-							<br />{' '}
 							<div className="justify-between items-center">{children}</div>
 						</div>
 					</div>

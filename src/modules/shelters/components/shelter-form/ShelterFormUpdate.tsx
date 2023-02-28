@@ -1,15 +1,16 @@
-import { Button, Checkbox, Label, Select, TextInput } from 'flowbite-react';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import React from 'react';
-import { SetStateAction, useState } from 'react';
+import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { Button, Label, Select, TextInput } from 'flowbite-react';
+import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
+import type React from 'react';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
+import { CustomInput } from '../custom/customInput';
 import { SHELTER_FORM_VALIDATION_SCHEMA } from './constants';
-import { ShelterFormModel } from './types';
+import type { ShelterFormModel } from './types';
 
 export interface ShelterFormProps {
 	disabled?: boolean;
 	onSubmit: (loginValues: ShelterFormModel) => void;
-	shelter: ShelterFormModel;
+	shelter?: ShelterFormModel;
 }
 
 const regions = [
@@ -27,6 +28,24 @@ const regions = [
 	},
 ];
 
+const amenities = [
+	{
+		id: 0,
+		serviceAttribute: 'Restaurant',
+		serviceValue: ['Si', 'No'],
+	},
+	{
+		id: 0,
+		serviceAttribute: 'Electricity',
+		serviceValue: ['Si', 'No'],
+	},
+	{
+		id: 0,
+		serviceAttribute: 'Beds',
+		serviceValue: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+	},
+];
+
 export const ShelterFormUpdate: React.FC<ShelterFormProps> = ({
 	disabled,
 	onSubmit,
@@ -34,195 +53,171 @@ export const ShelterFormUpdate: React.FC<ShelterFormProps> = ({
 }) => {
 	return (
 		<Formik
-			initialValues={shelter}
+			initialValues={shelter!}
 			validationSchema={toFormikValidationSchema(
 				SHELTER_FORM_VALIDATION_SCHEMA
 			)}
 			validateOnChange={false}
 			validateOnBlur={false}
-			onSubmit={onSubmit}
+			onSubmit={(values, { resetForm }) => {
+				onSubmit(values);
+				resetForm();
+			}}
 		>
 			{({ values }) => (
 				<Form className="flex flex-col gap-4">
-					<h1 style={{ fontSize: '32px', fontWeight: 'bold' }}>
-						Shelter Informations
-					</h1>
-					<div className="flex gap-4">
-						<div className="flex-1">
-							<Label htmlFor="name" value="Shelter name *" />
-							<Field
-								id="name"
-								name="name"
-								type="text"
-								placeholder="Name"
-								as={TextInput}
-							/>
-							<ErrorMessage
-								name="name"
-								component="div"
-								className="text-red-600 text-sm font-medium"
-							/>
-						</div>
+					<div className="grid grid-cols-12">
+						<div className="col-span-7">
+							<h1 style={{ fontSize: '32px', fontWeight: 'bold' }}>
+								Informations
+							</h1>
+							<div className="flex gap-4">
+								<CustomInput
+									id="name"
+									name="name"
+									type="text"
+									placeholder="Name"
+									as={TextInput}
+								/>
+								<div className="flex-2">
+									<Label htmlFor="region" value="Region *" />
+									<Field id="region" name="region" as={Select}>
+										<option value="">Select a region</option>
+										{regions.map((region) => (
+											<option key={region.id} value={region.name}>
+												{region.name}
+											</option>
+										))}
+									</Field>
+									<ErrorMessage
+										name="region"
+										component="div"
+										className="text-red-600 text-sm font-medium"
+									/>
+								</div>
 
-						<div className="flex-2">
-							<Label htmlFor="region" value="Region *" />
-							<Field id="region" name="region" as={Select}>
-								<option value="">Select a region</option>
-								{regions.map((region) => (
-									<option key={region.id} value={region.name}>
-										{region.name}
-									</option>
-								))}
-							</Field>
-							<ErrorMessage
-								name="region"
-								component="div"
-								className="text-red-600 text-sm font-medium"
-							/>
+								<div className="flex-2">
+									<Label htmlFor="province" value="Province *" />
+									<Field as={Select} id="province" name="province">
+										<option value="">Select a province</option>
+										{regions
+											.find((r) => r.name === values.region)
+											?.provinces.map((province) => (
+												<option key={province} value={province}>
+													{province}
+												</option>
+											))}
+									</Field>
+									<ErrorMessage
+										name="province"
+										component="div"
+										className="text-red-600 text-sm font-medium"
+									/>
+								</div>
+							</div>
+							<br />
+							<div className="flex gap-4">
+								<CustomInput
+									id="latitude"
+									name="latitude"
+									type="number"
+									placeholder="Latitude"
+									as={TextInput}
+								/>
+								<CustomInput
+									id="longitude"
+									name="longitude"
+									type="number"
+									placeholder="Longitude"
+									as={TextInput}
+								/>
+							</div>
+							<br />
+							<div className="flex gap-4">
+								<CustomInput
+									id="url"
+									name="url"
+									type="text"
+									placeholder="Website"
+									as={TextInput}
+								/>
+							</div>
 						</div>
+						<div className="col-start-9 col-span-4">
+							<h1 style={{ fontSize: '32px', fontWeight: 'bold' }}>Services</h1>
 
-						<div className="flex-2">
-							<Label htmlFor="province" value="Province *" />
-							<Field as={Select} id="province" name="province">
-								<option value="">Select a province</option>
-								{regions
-									.find((r) => r.name === values.region)
-									?.provinces.map((province) => (
-										<option key={province} value={province}>
-											{province}
-										</option>
-									))}
-							</Field>
-							<ErrorMessage
-								name="province"
-								component="div"
-								className="text-red-600 text-sm font-medium"
-							/>
-						</div>
-					</div>
-					<div className="flex gap-4">
-						<div className="flex-1">
-							<Label htmlFor="latitude" value="Latitude *" />
-							<Field
-								id="latitude"
-								name="latitude"
-								type="number"
-								placeholder="Latitude"
-								as={TextInput}
-							/>
-							<ErrorMessage
-								name="latitude"
-								component="div"
-								className="text-red-600 text-sm font-medium"
-							/>
-						</div>
-						<div className="flex-1">
-							<Label htmlFor="longitude" value="Longitude *" />
-							<Field
-								id="longitude"
-								name="longitude"
-								type="number"
-								placeholder="Longitude"
-								as={TextInput}
-							/>
-							<ErrorMessage
-								name="longitude"
-								component="div"
-								className="text-red-600 text-sm font-medium"
-							/>
-						</div>
-					</div>
-					<div className="flex gap-4">
-						<div className="flex-1">
-							<Label htmlFor="url" value="Website" />
-							<Field
-								id="url"
-								name="url"
-								type="text"
-								placeholder="Website"
-								as={TextInput}
-							/>
-							<ErrorMessage
-								name="url"
-								component="div"
-								className="text-red-600 text-sm font-medium"
-							/>
+							<FieldArray name="amenities">
+								{({ push, remove }) => (
+									<div>
+										{values.amenities.map((amenity, index) => {
+											return (
+												<div key={index}>
+													<br />
+													<div className="flex gap-1">
+														<div className="w-40">
+															<Field
+																id={`amenities[${index}].serviceAttribute`}
+																name={`amenities[${index}].serviceAttribute`}
+																as={Select}
+															>
+																<option value="">Key</option>
+																{amenities.map((a, i) => (
+																	<option
+																		key={`${a.serviceAttribute}-${i}`}
+																		value={a.serviceAttribute}
+																	>
+																		{a.serviceAttribute}
+																	</option>
+																))}
+															</Field>
+														</div>
+														<div className="w-40">
+															<Field
+																as={Select}
+																id={`amenities[${index}].serviceValue`}
+																name={`amenities[${index}].serviceValue`}
+															>
+																<option value="">Value</option>
+																{amenities
+																	.find(
+																		(a) =>
+																			a.serviceAttribute ===
+																			amenity.serviceAttribute
+																	)
+																	?.serviceValue.map((value) => (
+																		<option key={value} value={value}>
+																			{value}
+																		</option>
+																	))}
+															</Field>
+														</div>
+														<div>
+															<Button
+																color="failure"
+																onClick={() => remove(index)}
+															>
+																<TrashIcon className="h-5 w-5" />
+															</Button>
+														</div>
+													</div>
+												</div>
+											);
+										})}
+										<br />
+										<div className="flex">
+											<Button
+												color="gray"
+												onClick={() => push({ key: '', value: '' })}
+											>
+												<PlusIcon className="h-5 w-5" />
+											</Button>
+										</div>
+									</div>
+								)}
+							</FieldArray>
 						</div>
 					</div>
 					<br />
-					<h1 style={{ fontSize: '32px', fontWeight: 'bold' }}>
-						Shelter Services
-					</h1>
-					<div className="flex gap-4">
-						<div className="flex-1">
-							<div className="flex items-center mb-4">
-								<Field
-									id="Restaurant"
-									name="Restaurant"
-									type="checkbox"
-									placeholder="Restaurant"
-									as={TextInput}
-								/>
-								<label
-									htmlFor="Restaurant"
-									className="ml-2 text-lg font-medium text-gray-900 dark:text-gray-300"
-								>
-									Restaurant
-								</label>
-							</div>
-						</div>
-						<div className="flex-1">
-							<div className="flex items-center mb-4">
-								<Field
-									id="Sanitary"
-									name="Sanitary"
-									type="checkbox"
-									placeholder="Sanitary"
-									as={TextInput}
-								/>
-								<label
-									htmlFor="Sanitary"
-									className="ml-2 text-lg font-medium text-gray-900 dark:text-gray-300"
-								>
-									Sanitary
-								</label>
-							</div>
-						</div>
-						<div className="flex-1">
-							<div className="flex items-center mb-4">
-								<Field
-									id="Electricity"
-									name="Electricity"
-									type="checkbox"
-									placeholder="Electricity"
-									as={TextInput}
-								/>
-								<label
-									htmlFor="Electricity"
-									className="ml-2 text-lg font-medium text-gray-900 dark:text-gray-300"
-								>
-									Electricity
-								</label>
-							</div>
-						</div>
-						<div className="flex-1">
-							<div className="flex items-center mb-4">
-								<Field
-									id="Beds"
-									name="Beds"
-									type="checkbox"
-									placeholder="Beds"
-									as={TextInput}
-								/>
-								<label
-									htmlFor="Beds"
-									className="ml-2 text-lg font-medium text-gray-900 dark:text-gray-300"
-								>
-									Beds
-								</label>
-							</div>
-						</div>
-					</div>
 					<Button type="submit" disabled={disabled}>
 						Update Shelter
 					</Button>
