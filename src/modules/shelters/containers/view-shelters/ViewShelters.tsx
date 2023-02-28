@@ -109,9 +109,12 @@ export const ViewShelters: React.FC = () => {
 
 				<br />
 				<Badge color="info">
-					Edited on:{' '}
-					{moment.utc(shelter?.dateCreated).local().format('DD/MM/YYYY')} by{' '}
-					<u>{shelter?.author}</u>
+					Edited on{' '}
+					<b>{moment.utc(shelter?.dateCreated).local().format('DD/MM/YYYY')}</b>{' '}
+					by{' '}
+					<b>
+						<u>{shelter?.author}</u>
+					</b>
 				</Badge>
 				<br />
 				<Table striped={true}>
@@ -158,25 +161,31 @@ export const ViewShelters: React.FC = () => {
 				<br />
 				<hr />
 				<br />
-				<Table striped={true}>
-					<Table.Head>
-						<Table.HeadCell>Service</Table.HeadCell>
-						<Table.HeadCell>Value</Table.HeadCell>
-					</Table.Head>
-					<Table.Body className="divide-y">
-						{shelter?.amenities.map((amenity) => (
-							<Table.Row
-								key={amenity.serviceAttribute}
-								className="bg-white dark:border-gray-700 dark:bg-gray-800"
-							>
-								<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-									{amenity.serviceAttribute}
-								</Table.Cell>
-								<Table.Cell>{amenity.serviceValue}</Table.Cell>
-							</Table.Row>
-						))}
-					</Table.Body>
-				</Table>
+				{shelter?.amenities.length > 0 ? (
+					<Table striped={true}>
+						<Table.Head>
+							<Table.HeadCell>Service</Table.HeadCell>
+							<Table.HeadCell>Value</Table.HeadCell>
+						</Table.Head>
+						<Table.Body className="divide-y">
+							{shelter?.amenities.map((amenity) => (
+								<Table.Row
+									key={amenity.serviceAttribute}
+									className="bg-white dark:border-gray-700 dark:bg-gray-800"
+								>
+									<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+										{amenity.serviceAttribute}
+									</Table.Cell>
+									<Table.Cell>{amenity.serviceValue}</Table.Cell>
+								</Table.Row>
+							))}
+						</Table.Body>
+					</Table>
+				) : (
+					<div className="text-gray-500 dark:text-gray-400">
+						<center>No services informations</center>
+					</div>
+				)}
 			</SlidingPanel>
 		</>
 	);

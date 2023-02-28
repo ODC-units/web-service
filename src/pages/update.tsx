@@ -8,10 +8,19 @@ const Form: NextPage = () => {
 	const router = useRouter();
 	const { id } = router.query;
 
+	const handleUpdate = () => {
+		void router.push({
+			pathname: '/',
+			query: {
+				callbackUrl: router.pathname,
+			},
+		});
+	};
+
 	return (
 		<Page.Authorized>
 			<Layout padded>
-				<UpdateShelter id={id as string} />
+				<UpdateShelter id={id as string} onUpdate={handleUpdate} />
 			</Layout>
 		</Page.Authorized>
 	);

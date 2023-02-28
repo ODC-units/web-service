@@ -1,11 +1,14 @@
+import { Service } from '@/api/shelters/service';
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { Button, Label, Select, TextInput } from 'flowbite-react';
 import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
 import type React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
+import useServices from '../../hooks/use-services/useServices';
 import { CustomInput } from '../custom/customInput';
 import {
+	regions,
 	SHELTER_FORM_INITIAL_VALUES,
 	SHELTER_FORM_VALIDATION_SCHEMA,
 } from './constants';
@@ -15,44 +18,13 @@ export interface ShelterFormProps {
 	disabled?: boolean;
 	onSubmit: (loginValues: ShelterFormModel) => void;
 	shelter?: ShelterFormModel;
+	amenities?: Service[];
 }
-
-const regions = [
-	{
-		id: 0,
-		name: 'Friuli Venezia Giulia',
-		provinces: ['Gorizia', 'Pordenone', 'Udine', 'Trieste'],
-	},
-	{ id: 1, name: 'Lombardia', provinces: ['Milano', 'Bergamo', 'Brescia'] },
-	{ id: 2, name: 'Toscana', provinces: ['Firenze', 'Pisa', 'Siena'] },
-	{
-		id: 3,
-		name: 'Veneto',
-		provinces: ['Belluno', 'Verona', 'Vicenza', 'Padova'],
-	},
-];
-
-const amenities = [
-	{
-		id: 0,
-		serviceAttribute: 'Restaurant',
-		serviceValue: ['Si', 'No'],
-	},
-	{
-		id: 1,
-		serviceAttribute: 'Electricity',
-		serviceValue: ['Si', 'No'],
-	},
-	{
-		id: 2,
-		serviceAttribute: 'Beds',
-		serviceValue: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-	},
-];
 
 export const ShelterForm: React.FC<ShelterFormProps> = ({
 	disabled,
 	onSubmit,
+	amenities,
 }) => {
 	return (
 		<Formik
@@ -154,7 +126,7 @@ export const ShelterForm: React.FC<ShelterFormProps> = ({
 									<div>
 										{values.amenities.map((amenity, index) => {
 											return (
-												<div key={index}>
+												<div id={`${index}`} key={index}>
 													<br />
 													<div className="flex gap-1">
 														<div className="w-40">
@@ -164,7 +136,7 @@ export const ShelterForm: React.FC<ShelterFormProps> = ({
 																as={Select}
 															>
 																<option value="">Key</option>
-																{amenities.map((a, i) => (
+																{amenities?.map((a, i) => (
 																	<option
 																		key={`${a.serviceAttribute}-${i}`}
 																		value={a.serviceAttribute}
@@ -182,7 +154,7 @@ export const ShelterForm: React.FC<ShelterFormProps> = ({
 															>
 																<option value="">Value</option>
 																{amenities
-																	.find(
+																	?.find(
 																		(a) =>
 																			a.serviceAttribute ===
 																			amenity.serviceAttribute

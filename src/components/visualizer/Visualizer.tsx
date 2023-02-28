@@ -111,9 +111,9 @@ const Visualizer: React.FC<VisualizerProps> = ({
 				onClick={onClick}
 				ref={mapRef}
 				initialViewState={{
-					latitude: 41.645835,
-					longitude: 12.433583,
-					zoom: 5,
+					latitude: 47,
+					longitude: 12,
+					zoom: 6,
 				}}
 				maxBounds={[
 					[6.367489, 36.410317], // Southwest coordinates

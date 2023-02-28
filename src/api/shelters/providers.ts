@@ -5,6 +5,7 @@ import {
 	ShelterEntityJsonLdSchema,
 	ShelterEntityJsonLdHelperSchema,
 } from './dtos';
+import { Service } from './service';
 import type { ShelterInfo } from './shelterInfo';
 import type { ShelterLocationSchema } from './shelterLocation';
 
@@ -26,6 +27,14 @@ export const updateShelter = async (shelterInfo: ShelterInfo) => {
 	);
 
 	return response;
+};
+
+export const getServices = async (): Promise<Service[]> => {
+	const client = getClient();
+
+	const response = await client.get(`${API_SHELTERS_PATH}/get/services`);
+
+	return response.data;
 };
 
 export const getShelter = async (id: string): Promise<ShelterInfo> => {
