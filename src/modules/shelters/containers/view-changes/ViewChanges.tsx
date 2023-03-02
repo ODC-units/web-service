@@ -45,14 +45,14 @@ export const ViewChanges: React.FC<ViewChangesProps> = ({ id }) => {
 			<Timeline>
 				{shelters?.map((shelter) => {
 					return (
-						<Timeline.Item key={`${shelter?.id}${shelter?.dateCreated}`}>
+						<Timeline.Item key={`${shelter?.id}${shelter?.uploadDate}`}>
 							<Timeline.Point />
 							<Timeline.Content>
 								<Timeline.Time>
 									Edited on{' '}
 									<b>
 										{moment
-											.utc(shelter?.dateCreated)
+											.utc(shelter?.uploadDate)
 											.local()
 											.format('DD/MM/YYYY')}{' '}
 									</b>

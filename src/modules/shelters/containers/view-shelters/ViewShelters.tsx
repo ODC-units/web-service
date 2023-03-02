@@ -113,7 +113,7 @@ export const ViewShelters: React.FC = () => {
 				<br />
 				<Badge color="info">
 					Edited on{' '}
-					<b>{moment.utc(shelter?.dateCreated).local().format('DD/MM/YYYY')}</b>{' '}
+					<b>{moment.utc(shelter?.uploadDate).local().format('DD/MM/YYYY')}</b>{' '}
 					by{' '}
 					<b>
 						<u>{shelter?.author}</u>
@@ -168,41 +168,44 @@ export const ViewShelters: React.FC = () => {
 				<br />
 				<hr />
 				<br />
-				{shelter?.amenities.length > 0 ? (
-					<Table striped={true}>
-						<Table.Head>
-							<Table.HeadCell>Service</Table.HeadCell>
-							<Table.HeadCell>Value</Table.HeadCell>
-						</Table.Head>
-						<Table.Body className="divide-y">
-							{shelter?.amenities.map((amenity) => (
-								<Table.Row
-									key={amenity.serviceAttribute}
-									className="bg-white dark:border-gray-700 dark:bg-gray-800"
-								>
-									<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-										{amenity.serviceAttribute}{' '}
-										<a
-											href={`https://storage.cloud.google.com/vocabularies/openshelterapi/vocabularies/${amenity.serviceAttribute}.json`}
-											target="_blank"
-											style={{
-												display: 'inline-block',
-												verticalAlign: 'middle',
-											}}
-										>
-											<InformationCircleIcon className="w-5 h-5" />
-										</a>
-									</Table.Cell>
-									<Table.Cell>{amenity.serviceValue}</Table.Cell>
-								</Table.Row>
-							))}
-						</Table.Body>
-					</Table>
-				) : (
-					<div className="text-gray-500 dark:text-gray-400">
-						<center>No services informations</center>
-					</div>
-				)}
+				{
+					// @ts-ignore
+					shelter?.amenities.length > 0 ? (
+						<Table striped={true}>
+							<Table.Head>
+								<Table.HeadCell>Service</Table.HeadCell>
+								<Table.HeadCell>Value</Table.HeadCell>
+							</Table.Head>
+							<Table.Body className="divide-y">
+								{shelter?.amenities.map((amenity) => (
+									<Table.Row
+										key={amenity.serviceAttribute}
+										className="bg-white dark:border-gray-700 dark:bg-gray-800"
+									>
+										<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+											{amenity.serviceAttribute}{' '}
+											<a
+												href={`https://storage.cloud.google.com/vocabularies/openshelterapi/vocabularies/${amenity.serviceAttribute}.json`}
+												target="_blank"
+												style={{
+													display: 'inline-block',
+													verticalAlign: 'middle',
+												}}
+											>
+												<InformationCircleIcon className="w-5 h-5" />
+											</a>
+										</Table.Cell>
+										<Table.Cell>{amenity.serviceValue}</Table.Cell>
+									</Table.Row>
+								))}
+							</Table.Body>
+						</Table>
+					) : (
+						<div className="text-gray-500 dark:text-gray-400">
+							<center>No services informations</center>
+						</div>
+					)
+				}
 			</SlidingPanel>
 		</>
 	);

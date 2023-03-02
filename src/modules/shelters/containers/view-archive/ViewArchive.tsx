@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Table } from 'flowbite-react';
 import type React from 'react';
-import BasicTreeView from './tree';
 
 const regions = [
 	{

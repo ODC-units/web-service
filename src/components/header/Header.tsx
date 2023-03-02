@@ -42,11 +42,6 @@ const Header: React.FC = () => {
 								Copy JWT Token
 							</span>
 						</Dropdown.Item>
-						<Dropdown.Item onClick={copyToken}>
-							<span className="block truncate text-sm font-medium">
-								{user.displayName}
-							</span>
-						</Dropdown.Item>
 						<Dropdown.Item onClick={handleLogout}>
 							<span className="text-red-600 text-sm font-medium">Sign out</span>
 						</Dropdown.Item>
