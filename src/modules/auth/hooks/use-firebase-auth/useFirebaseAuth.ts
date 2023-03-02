@@ -50,10 +50,11 @@ const useFirebaseAuth = (
 		async (username: string, email: string, password: string) => {
 			setLoading(true);
 			await createUserWithEmailAndPassword(auth, email, password);
-			// Update user profile
+
 			await updateProfile(auth.currentUser!, {
 				displayName: username,
 			});
+
 			setLoading(false);
 		},
 		[auth]

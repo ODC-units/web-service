@@ -2,7 +2,10 @@
 import { API_BASE_URL } from '@/api/constants';
 import type { ShelterInfo } from '@/api/shelters/shelterInfo';
 import { SlidingPanel, Visualizer } from '@/components';
-import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import {
+	ExclamationCircleIcon,
+	InformationCircleIcon,
+} from '@heroicons/react/24/outline';
 import { Alert, Badge, Button, Spinner, Table, Tooltip } from 'flowbite-react';
 import moment from 'moment';
 import Link from 'next/link';
@@ -153,7 +156,11 @@ export const ViewShelters: React.FC = () => {
 							<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
 								Website
 							</Table.Cell>
-							<Table.Cell>{shelter?.url}</Table.Cell>
+							<Table.Cell>
+								<a href={`${shelter?.url}`} target="_blank">
+									{shelter?.url}
+								</a>
+							</Table.Cell>
 						</Table.Row>
 					</Table.Body>
 				</Table>
@@ -174,7 +181,17 @@ export const ViewShelters: React.FC = () => {
 									className="bg-white dark:border-gray-700 dark:bg-gray-800"
 								>
 									<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-										{amenity.serviceAttribute}
+										{amenity.serviceAttribute}{' '}
+										<a
+											href={`https://storage.cloud.google.com/vocabularies/openshelterapi/vocabularies/${amenity.serviceAttribute}.json`}
+											target="_blank"
+											style={{
+												display: 'inline-block',
+												verticalAlign: 'middle',
+											}}
+										>
+											<InformationCircleIcon className="w-5 h-5" />
+										</a>
 									</Table.Cell>
 									<Table.Cell>{amenity.serviceValue}</Table.Cell>
 								</Table.Row>

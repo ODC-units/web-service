@@ -1,4 +1,3 @@
-import { useFirebaseAuth } from '@/modules/auth';
 import { getClient } from '../clients/axiosClient';
 import { API_SHELTERS_PATH } from './constants';
 import {
@@ -11,6 +10,8 @@ import type { ShelterLocationSchema } from './shelterLocation';
 
 export const createShelter = async (shelterInfo: ShelterInfo) => {
 	const client = getClient();
+
+	console.log('shelterInfo', shelterInfo);
 
 	const response = await client.post(API_SHELTERS_PATH, shelterInfo);
 
@@ -68,7 +69,7 @@ export const getShelter = async (id: string): Promise<ShelterInfo> => {
 
 		const [latitude, longitude] = coordinates;
 
-		const { 'schema:author': author, 'schema:dateCreated': dateCreated } =
+		const { 'schema:author': author, 'schema:uploadDate': dateCreated } =
 			shelter;
 
 		return {
@@ -149,7 +150,7 @@ export const getShelterChanges = async (id: string): Promise<ShelterInfo[]> => {
 
 		const [latitude, longitude] = coordinates;
 
-		const { 'schema:author': author, 'schema:dateCreated': dateCreated } =
+		const { 'schema:author': author, 'schema:uploadDate': dateCreated } =
 			shelter;
 
 		return {

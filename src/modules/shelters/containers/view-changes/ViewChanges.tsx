@@ -2,6 +2,7 @@
 
 import { API_BASE_URL } from '@/api/constants';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+import InformationCircleIcon from '@heroicons/react/24/outline/InformationCircleIcon';
 import { Badge, Button, Table, Timeline, Tooltip } from 'flowbite-react';
 import moment from 'moment';
 import Link from 'next/link';
@@ -101,7 +102,11 @@ export const ViewChanges: React.FC<ViewChangesProps> = ({ id }) => {
 														<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
 															Website
 														</Table.Cell>
-														<Table.Cell>{shelter?.url}</Table.Cell>
+														<Table.Cell>
+															<a href={`${shelter?.url}`} target="_blank">
+																{shelter?.url}
+															</a>
+														</Table.Cell>
 													</Table.Row>
 												</Table.Body>
 											</Table>
@@ -120,7 +125,17 @@ export const ViewChanges: React.FC<ViewChangesProps> = ({ id }) => {
 																className="bg-white dark:border-gray-700 dark:bg-gray-800"
 															>
 																<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-																	{amenity.serviceAttribute}
+																	{amenity.serviceAttribute}{' '}
+																	<a
+																		href={`https://storage.cloud.google.com/vocabularies/openshelterapi/vocabularies/${amenity.serviceAttribute}.json`}
+																		target="_blank"
+																		style={{
+																			display: 'inline-block',
+																			verticalAlign: 'middle',
+																		}}
+																	>
+																		<InformationCircleIcon className="w-5 h-5" />
+																	</a>
 																</Table.Cell>
 																<Table.Cell>{amenity.serviceValue}</Table.Cell>
 															</Table.Row>

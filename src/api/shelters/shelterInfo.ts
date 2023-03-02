@@ -15,7 +15,7 @@ const ShelterInfoSchema = z.object({
 	),
 	url: z.string(),
 	author: z.string().optional(),
-	dateCreated: z.string().optional(),
+	uploadDate: z.string().optional(),
 });
 
 export type ShelterInfo = z.infer<typeof ShelterInfoSchema>;

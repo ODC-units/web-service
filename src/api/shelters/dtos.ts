@@ -25,7 +25,7 @@ const ShelterEntityJsonLdHelperSchema = z.object({
 		'geojson:coordinates': z.array(z.number()),
 	}),
 	'schema:author': z.string(),
-	'schema:dateCreated': z.string(),
+	'schema:uploadDate': z.string(),
 });
 
 const ShelterEntityJsonLdSchema = z.object({
