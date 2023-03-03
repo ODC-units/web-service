@@ -91,8 +91,11 @@ export const ViewShelters: React.FC = () => {
 								content={`${API_BASE_URL}/v1/shelters/${shelter?.id}`}
 								trigger="hover"
 							>
-								<a href={`${API_BASE_URL}/v1/shelters/${shelter?.id}`}>
-									Get GeoJSON
+								<a
+									href={`${API_BASE_URL}/v1/shelters/${shelter?.id}`}
+									target="_blank"
+								>
+									Get
 								</a>
 							</Tooltip>
 						</Button>
