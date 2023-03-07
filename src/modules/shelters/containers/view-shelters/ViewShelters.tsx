@@ -116,7 +116,7 @@ export const ViewShelters: React.FC = () => {
 				<br />
 				<Badge color="info">
 					Edited on{' '}
-					<b>{moment.utc(shelter?.uploadDate).local().format('DD/MM/YYYY')}</b>{' '}
+					<b>{moment.utc(shelter?.dateCreated).local().format('DD/MM/YYYY')}</b>{' '}
 					by{' '}
 					<b>
 						<u>{shelter?.author}</u>

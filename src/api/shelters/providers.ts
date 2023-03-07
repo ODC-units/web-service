@@ -170,5 +170,7 @@ export const getShelterChanges = async (id: string): Promise<ShelterInfo[]> => {
 		};
 	});
 
+	console.log(sheltersInfo);
+
 	return sheltersInfo;
 };
