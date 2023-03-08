@@ -37,6 +37,7 @@ const ShelterEntityJsonLdSchema = z.object({
 	'dc:title': z.string(),
 	'dc:description': z.string(),
 	'dc:creator': z.string(),
+	'dc:identifier': z.string(),
 	'dc:date': z.string(),
 	'dc:format': z.string(),
 	'dc:language': z.string(),

@@ -104,7 +104,7 @@ const Visualizer: React.FC<VisualizerProps> = ({
 	return (
 		<div className="h-full">
 			<Map
-				mapStyle="mapbox://styles/mapbox/streets-v9"
+				mapStyle="mapbox://styles/denardincarlodev/clezgu7to002301qololbn8k2"
 				mapboxAccessToken={MAPBOX_API_KEY}
 				reuseMaps
 				interactiveLayerIds={[clusterLayer.id!, unclusteredPointLayer.id!]}
